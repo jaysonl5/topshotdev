@@ -1,0 +1,278 @@
+#searchMintedMoments By Dapper ID
+query($input:SearchMintedMomentsInput!) {
+  searchMintedMoments(input: $input) {
+		data {
+      filters 
+      {
+        byOwnerDapperID
+      },
+      sortBy,
+      searchSummary
+      {
+        count 
+        {
+          count
+        },
+        pagination{
+          leftCursor
+        },
+        data{
+          data
+          {
+           sortID,
+           
+          },
+          size
+        }
+      }
+    }
+  }
+}
+
+
+{
+  "input": 
+  {
+    "filters":{
+      "byOwnerDapperID": ["google-oauth2|116036672944806826268"]
+    },
+    "searchInput": {
+    	"pagination": {
+        "cursor": "",
+        "direction": "RIGHT",
+        "limit": 400
+      }
+    },
+    "sortBy":"SERIAL_NUMBER_ASC"
+  }
+}
+
+
+
+# !!!!! ALL PLAYERS  !!!!!
+
+query{
+  allPlayers {
+    size,
+    data{
+      id,
+      name
+    }
+  }
+}
+
+
+
+
+
+
+
+# Write your query or mutation here
+query($input:SearchEditionListingsInput!) 
+{
+  searchEditionListings(input: $input) 
+  {
+		data 
+    {
+      filters 
+      {
+        byPlayers
+      },
+      sortBy,
+      searchSummary
+      {
+        data
+        {
+          data
+          {
+            sortID
+            ... on EditionListing
+            {
+              id,
+              version,
+              # sortID,
+              assetPathPrefix,
+              play{
+                id,
+                stats{
+                  playerID,
+                  teamAtMomentNbaId,
+                  dateOfMoment
+                },
+                statsPlayerGameScores{
+                  twoPointsMade,
+                  twoPointsAttempted,
+                  twoPointsPercentage,
+                  threePointsMade,
+                  threePointsAttempted,
+                  threePointsPercentage,
+                  fieldGoalsMade,
+                  fieldGoalsAttempted,
+                  fieldGoalsPercentage,
+                  points,
+                  rebounds,
+                  assists
+                },
+                tags{
+                  id
+                  title,
+                  visible,                
+                  hardcourt
+                }
+                assets{
+                  videos{
+                    url,
+                    videoLength,
+                    type                    
+                  }
+                }
+              },
+              set{
+                id,
+                setVisualId,
+								flowId,
+                flowName,
+                assets{
+                  images{
+                    url,
+                    type
+                  }
+                },
+                assetPath
+              },
+              setPlay
+              {
+                ID,
+                setID,
+                playID,
+                flowRetired,
+              },
+              priceRange
+              {
+              	min,
+                max
+              },
+              editionListingCount,
+              uniqueSellerCount,
+              userOwnedEditionsCount,
+            }
+          }  
+        }
+      }
+    }
+  }
+}
+
+{
+  "input": 
+  {
+    "filters":{
+      "byPlayers":["203081"]
+    },
+    "searchInput": {
+    	"pagination": {
+        "cursor": "",
+        "direction": "RIGHT",
+        "limit": 20
+      }
+    },
+    "sortBy":"PRICE_USD_ASC"
+    }
+  }
+
+
+
+  SearchEditions
+
+  # Write your query or mutation here
+query($input:SearchEditionsInput!) 
+{
+  searchEditions(input: $input) 
+  {
+    searchSummary{
+    
+    count{
+      count
+    },
+    
+		data 
+    {
+        data
+        {
+            ... on Edition
+            {
+              id
+              version,
+              # sortID,          
+              assetPathPrefix,
+              circulationCount,
+              set{
+                id,
+                flowName,
+                flowSeriesNumber,
+                setVisualId,
+                
+              }
+              play{
+                id,
+                
+                stats{
+                  playerID,
+                  playerName,
+                  playCategory,
+                	playType,                  
+                  teamAtMoment,
+                  dateOfMoment
+                },
+                statsPlayerGameScores{
+                  points,
+                  rebounds,
+                  assists,
+                  steals,
+                  blocks                  
+                },
+                tags{
+                  id,
+                  title,
+                  visible
+                }
+              },
+              set{
+                id,
+                setVisualId,
+								flowId,
+                flowName
+              },
+              setPlay
+              {
+                ID,
+                setID,
+                playID,
+                flowRetired,
+              },
+              challengeID,
+              tags{
+                id,
+                visible,
+                title,
+                level
+              }
+            }
+          }  
+        }
+      }
+    }
+  }
+
+
+
+{
+  "input": 
+  {
+    "filters":{
+      "bySetIDs": ["814c5183-596f-41d7-9135-c6b29faa9c6d"]
+    }
+  }
+}
+
+  
