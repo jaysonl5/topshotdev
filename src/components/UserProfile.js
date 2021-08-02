@@ -1,4 +1,4 @@
-import { request } from "graphql-request";
+
 import { gql } from 'apollo-boost'
 import { graphql } from 'react-apollo';
 
@@ -32,7 +32,7 @@ function Profile(props){
     } else {
         return (
                 <div>
-                    <h2>{profile.publicInfo.username} <img src={profile.publicInfo.profileImageUrl} width="40px;"/></h2>
+                    <h2>{profile.publicInfo.username} <img src={profile.publicInfo.profileImageUrl} alt="user icon" width="40px;"/></h2>
                     <ul id="profile">
                         <li>User ID: {profile.publicInfo.dapperID}</li>
                         <li>Moment Count: {profile.momentCount}</li>
