@@ -1,3 +1,8 @@
+# NBA TopShot Moment-Stats
+
+Pulling data from NBA TopShot moments to visualize Stats Per Moment.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
