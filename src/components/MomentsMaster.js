@@ -111,6 +111,20 @@ function Moments(props){
                 <td>{moment.play.stats.teamAtMoment}</td>
                 <td>{moment.set.flowName}</td> 
                 <td>{findSetTier(moment.set.setVisualId)}</td>
+                <td>{moment.play.stats.playCategory}</td>
+                <td>{moment.circulationCount}</td>
+                <td>{moment.play.stats.dateOfMoment}</td>
+                <td>{moment.play.statsPlayerGameScores.points}</td>
+                <td>{moment.play.statsPlayerGameScores.rebounds}</td>
+                <td>{moment.play.statsPlayerGameScores.assists}</td>
+                <td>{moment.play.statsPlayerGameScores.steals}</td>
+                <td>{moment.play.statsPlayerGameScores.blocks}</td>
+                <td>{moment.play.statsPlayerGameScores.points + moment.play.statsPlayerGameScores.rebounds + 
+                     moment.play.statsPlayerGameScores.assists + moment.play.statsPlayerGameScores.steals + 
+                     moment.play.statsPlayerGameScores.blocks
+                    }</td>
+
+                {/* <td>{moment.play.tags.title}</td> */}
             </tr>)
         });
         console.log(moment)
@@ -118,13 +132,23 @@ function Moments(props){
                 <div>
                     <h2>Moments:</h2>
                     {/* <h2>{profile.publicInfo.username} <img src={profile.publicInfo.profileImageUrl} width="40px;"/></h2> */}
-                    <table>
+                    <table className="momentMaster">
                         <thead>
                             <td>Moment</td>
                             <td>Player</td>
                             <td>Team Name</td>
                             <td>Set Name</td>
                             <td>Tier</td>
+                            <td>Play Type</td>
+                            <td>Circulation Count</td>
+                            <td>Date of Moment</td>
+                            <td>Pts</td>
+                            <td>Reb</td>
+                            <td>Ast</td>
+                            <td>Stl</td>
+                            <td>Blk</td>
+                            <td>Stat Score</td>
+                            <td>TD</td>                            
                         </thead>
                         <tbody>
                             {rows}
