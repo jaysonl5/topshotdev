@@ -1,5 +1,8 @@
 import { gql } from 'apollo-boost'
 import { graphql } from 'react-apollo';
+const mongoose = require('mongoose');
+require('dotenv').config();
+const {Moment} = require('./schema/moment.js');
 
 
 function findSetTier(setVisualId){
@@ -23,10 +26,8 @@ function checkTripDub(pts, reb, ast, stl, blk){
   });
 
   if(count >= 3){
-    console.log(count);
     return 'X';
   } else {
-    console.log(count);
     return '';
   }
 }
@@ -109,8 +110,7 @@ query($input:SearchEditionsInput!)
     }
   }`
 
-
-function Moments(props){
+function seedMomes(props){
     const profile = props.data.searchEditions;
 
     if(!profile){
@@ -122,63 +122,54 @@ function Moments(props){
     } else {
         const moment = profile.searchSummary.data.data
 
-        const rows = moment.map(moment => {
-            return(
-            <tr key={moment.id}>
-                <td><img src={moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?width=200?w=256&q=75"} width="95px" /></td>
-                <td>{moment.play.stats.playerName}</td>
-                <td>{moment.play.stats.teamAtMoment}</td>
-                <td>{moment.set.flowName}</td> 
-                <td>{findSetTier(moment.set.setVisualId)}</td>
-                <td>{moment.play.stats.playCategory}</td>
-                <td>{moment.circulationCount}</td>
-                <td>{moment.play.stats.dateOfMoment}</td>
-                <td>{moment.play.statsPlayerGameScores.points}</td>
-                <td>{moment.play.statsPlayerGameScores.rebounds}</td>
-                <td>{moment.play.statsPlayerGameScores.assists}</td>
-                <td>{moment.play.statsPlayerGameScores.steals}</td>
-                <td>{moment.play.statsPlayerGameScores.blocks}</td>
-                <td>{moment.play.statsPlayerGameScores.points + moment.play.statsPlayerGameScores.rebounds + 
-                     moment.play.statsPlayerGameScores.assists + moment.play.statsPlayerGameScores.steals + 
-                     moment.play.statsPlayerGameScores.blocks
-                    }</td>
 
-                <td>{checkTripDub(moment.play.statsPlayerGameScores.points,moment.play.statsPlayerGameScores.rebounds,
-                     moment.play.statsPlayerGameScores.assists, moment.play.statsPlayerGameScores.steals, 
-                     moment.play.statsPlayerGameScores.blocks)}</td>
+        moment.map(moment => {
 
-                {/* <td>{moment.play.tags.title}</td> */}
-            </tr>)
+                let statScore = moment.play.statsPlayerGameScores.points + moment.play.statsPlayerGameScores.rebounds + 
+                    moment.play.statsPlayerGameScores.assists + moment.play.statsPlayerGameScores.steals + 
+                    moment.play.statsPlayerGameScores.blocks;
+
+                let tripDub = checkTripDub(moment.play.statsPlayerGameScores.points,moment.play.statsPlayerGameScores.rebounds,
+                    moment.play.statsPlayerGameScores.assists, moment.play.statsPlayerGameScores.steals, 
+                    moment.play.statsPlayerGameScores.blocks)
+
+                let Mome = new Moment({
+                    momentUrl: moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?width=200?w=256&q=75",
+                    player: moment.play.stats.playerName,
+                    teamName: moment.play.stats.teamAtMoment,
+                    setName: moment.set.flowName,
+                    tier: findSetTier(moment.set.setVisualId),
+                    playType: moment.play.stats.playCategory,
+                    circulationCount: moment.circulationCount,
+                    momentDate: moment.play.stats.dateOfMoment,
+                    points: moment.play.statsPlayerGameScores.points,
+                    rebounds: moment.play.statsPlayerGameScores.rebounds,
+                    assists: moment.play.statsPlayerGameScores.assists,
+                    steals: moment.play.statsPlayerGameScores.steals,
+                    blocks: moment.play.statsPlayerGameScores.blocks,
+                    statScore: statScore,
+                    tripDub: tripDub,
+                    badges: [
+                        {
+                            badgeName: '',
+                            badgeImageUrl:  ''
+                        }]
+                    });
+
+                    try{
+                        await Mome.save();
+                        console.log(Mome.player + ' saved')
+                    } catch(e){
+                        console.log(e);
+                        return (<div>error!</div>)
+                    }
+
+                    res.json({Mome})
+                    
+
         });
-        console.log(moment)
-        return (
-                <div>
-                    <h2>Moments:</h2>
-                    {/* <h2>{profile.publicInfo.username} <img src={profile.publicInfo.profileImageUrl} width="40px;"/></h2> */}
-                    <table className="momentMaster">
-                        <thead>
-                            <td>Moment</td>
-                            <td>Player</td>
-                            <td>Team Name</td>
-                            <td>Set Name</td>
-                            <td>Tier</td>
-                            <td>Play Type</td>
-                            <td>Circulation Count</td>
-                            <td>Date of Moment</td>
-                            <td>Pts</td>
-                            <td>Reb</td>
-                            <td>Ast</td>
-                            <td>Stl</td>
-                            <td>Blk</td>
-                            <td>Stat Score</td>
-                            <td>TD</td>                            
-                        </thead>
-                        <tbody>
-                            {rows}
-                        </tbody>
-                    </table>
-                </div>
-        )
+
+
     }
 
 };
@@ -204,4 +195,4 @@ export default graphql(getMomentsMasterQuery,
                   } 
             }          
         }
-    })(Moments);
+    })(seedMomes);
