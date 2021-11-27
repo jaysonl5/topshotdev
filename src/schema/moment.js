@@ -14,7 +14,9 @@ const momentSchema = mongoose.Schema({
     assists: Number,
     steals: Number,
     blocks: Number,
-    statScore: Number
+    statScore: Number,
+    tripDub: Boolean
+
 })
 
 let Moment = mongoose.model("Moment", momentSchema);

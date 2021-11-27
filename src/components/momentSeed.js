@@ -1,9 +1,10 @@
-import { gql } from 'apollo-boost'
-import { graphql } from 'react-apollo';
-const mongoose = require('mongoose');
+import axios from 'axios';
+const { gql } = require('@apollo/client');
+const { graphql, useQuery } = require('react-apollo');
 require('dotenv').config();
-const {Moment} = require('./schema/moment.js');
+const {Moment} = require('../schema/moment');
 
+const sets = ["814c5183-596f-41d7-9135-c6b29faa9c6d", "122b048d-585e-4c63-8275-c23949576fd6" ,"708a6f60-5c93-406e-854f-50dd6734c0dd"]
 
 function findSetTier(setVisualId){
     switch(setVisualId){
@@ -11,8 +12,7 @@ function findSetTier(setVisualId){
             return "Legendary"
         case "SET_VISUAL_RARE":
             return "Rare"
-    }
-    
+    }    
 }
 
 function checkTripDub(pts, reb, ast, stl, blk){
@@ -110,21 +110,22 @@ query($input:SearchEditionsInput!)
     }
   }`
 
-function seedMomes(props){
-    const profile = props.data.searchEditions;
+
+ 
+
+function SeedMomes(props){
+
+  const profile = props.data.searchEditions;
 
     if(!profile){
-        return(
-            <div>
-                <h3>LOADING...</h3>
-            </div>
-        )
-    } else {
-        const moment = profile.searchSummary.data.data
-
+      console.log("loading!");
+      return (<div>Loading data</div>);
+    } else{        
+      const moment = profile.searchSummary.data.data
+      console.log(moment);
+     
 
         moment.map(moment => {
-
                 let statScore = moment.play.statsPlayerGameScores.points + moment.play.statsPlayerGameScores.rebounds + 
                     moment.play.statsPlayerGameScores.assists + moment.play.statsPlayerGameScores.steals + 
                     moment.play.statsPlayerGameScores.blocks;
@@ -149,50 +150,46 @@ function seedMomes(props){
                     blocks: moment.play.statsPlayerGameScores.blocks,
                     statScore: statScore,
                     tripDub: tripDub,
-                    badges: [
-                        {
-                            badgeName: '',
-                            badgeImageUrl:  ''
-                        }]
-                    });
 
+                    });
+                    
                     try{
-                        await Mome.save();
+                        axios.post('http://localhost:5000/momentseed', {
+                          Mome
+                        });
                         console.log(Mome.player + ' saved')
+                        
                     } catch(e){
                         console.log(e);
-                        return (<div>error!</div>)
-                    }
-
-                    res.json({Mome})
-                    
-
+                        return (<div>Error: {e}</div>);
+                    }                                    
         });
 
+        return (<div>Data Saving</div>);
 
     }
 
 };
 
-// export default graphql(getUserProfileQuery)(Profile);
+
 export default graphql(getMomentsMasterQuery, 
-    { options: 
-        {
-            context: 
-            {
-                headers:
-                {
-                    "user" : "Jayson Lewis - jayson.lewis5@gmail.com - 918.527.0315"
-                }
-            },
-        
-         variables: 
-            { input: 
-                {
-                    "filters":{
-                      "bySetIDs": ["814c5183-596f-41d7-9135-c6b29faa9c6d", "122b048d-585e-4c63-8275-c23949576fd6" ,"708a6f60-5c93-406e-854f-50dd6734c0dd"]
-                    }
-                  } 
-            }          
-        }
-    })(seedMomes);
+  { options: 
+      {
+          context: 
+          {
+              headers:
+              {
+                  "user" : "Jayson Lewis - jayson.lewis5@gmail.com - 918.527.0315"
+              }
+          },
+      
+       variables: 
+          { input: 
+              {
+                  "filters":{
+                    "bySetIDs": sets
+                  }
+                } 
+          }          
+      }
+  })(SeedMomes);

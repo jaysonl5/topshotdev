@@ -6,6 +6,7 @@ import './components/UserProfile';
 import './components/MomentsMaster';
 import { InMemoryCache } from "@apollo/client";
 import MomentsMaster from "./components/MomentsMaster";
+import SeedMomes from "./components/momentSeed";
 
 
 
@@ -21,7 +22,7 @@ const client = new ApolloClient({
     <ApolloProvider client={client}>
       <div>
         <h1>Testing Graphql for Topshots!</h1>
-        <MomentsMaster />
+        <SeedMomes />
       </div>
     </ApolloProvider>
   );
