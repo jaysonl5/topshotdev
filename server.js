@@ -53,14 +53,14 @@ mongoose
           })
 
           app.post('/setseed', async (req, res) => {
-            console.log("Saving set: " + req.body.Set.player);
+              console.log(req.body)
             const set = new Set({
-                setId: req.body.Set.setId,
-                flowId: req.body.Set.setId,
-                setName: req.body.Set.setId,
-                seriesNumber: req.body.Set.setId,
-                assetPath: req.body.Set.setId,
-                setVisualID: req.body.Set.setId                    
+                setId: req.body.NewSet.setId,
+                flowId: req.body.NewSet.flowId,
+                setName: req.body.NewSet.setName,
+                seriesNumber: req.body.NewSet.seriesNumber,
+                assetPath: req.body.NewSet.assetPath,
+                setVisualID: req.body.NewSet.setVisualID                    
             });
 
             try{
@@ -70,6 +70,12 @@ mongoose
             }
 
             res.json({Result: "Seeded sets!"})
+          })
+
+          app.get('/getsets', async(req,res) => {
+            const sets = await Set.find()
+            console.log('SETS Retrieved!: ' + sets);
+            res.send(sets)
           })
 
         app.listen(port, () => {

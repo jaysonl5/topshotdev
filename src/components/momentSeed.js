@@ -3,16 +3,23 @@ const { gql } = require('@apollo/client');
 const { graphql, useQuery } = require('react-apollo');
 require('dotenv').config();
 const {Moment} = require('../schema/moment');
+const {React} = require('react');
 
-const sets = ["814c5183-596f-41d7-9135-c6b29faa9c6d", "122b048d-585e-4c63-8275-c23949576fd6" ,"708a6f60-5c93-406e-854f-50dd6734c0dd"]
+function pullSets(props){
+  return props.sets;
+}
 
 function findSetTier(setVisualId){
-    switch(setVisualId){
-        case "SET_VISUAL_LEGENDARY":
-            return "Legendary"
-        case "SET_VISUAL_RARE":
-            return "Rare"
-    }    
+  switch(setVisualId){
+      case "SET_VISUAL_LEGENDARY":
+          return "Legendary"
+      case "SET_VISUAL_RARE":
+          return "Rare"
+      case "SET_VISUAL_COMMON":
+          return "Common"
+      case "SET_VISUAL_FANDOM":
+          return "Fandom"
+  }    
 }
 
 function checkTripDub(pts, reb, ast, stl, blk){
@@ -173,7 +180,9 @@ function SeedMomes(props){
 
 
 export default graphql(getMomentsMasterQuery, 
-  { options: 
+  {
+    props: ({ sets }) => ({ 
+    options: 
       {
           context: 
           {
@@ -190,6 +199,7 @@ export default graphql(getMomentsMasterQuery,
                     "bySetIDs": sets
                   }
                 } 
-          }          
-      }
+          }      
+        }    
+      })
   })(SeedMomes);

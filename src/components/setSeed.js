@@ -2,7 +2,8 @@ import axios from 'axios';
 const { gql } = require('@apollo/client');
 const { graphql, useQuery } = require('react-apollo');
 require('dotenv').config();
-const {Seed} = require('../schema/seed');
+const { Set } = require('../schema/set');
+
 
 // const sets = ["814c5183-596f-41d7-9135-c6b29faa9c6d", "122b048d-585e-4c63-8275-c23949576fd6" ,"708a6f60-5c93-406e-854f-50dd6734c0dd"];
 
@@ -67,59 +68,45 @@ query($input:SearchSetsInput!){
 
  
 
-function SeetSets(props){
+function SeedSets(props){
 
-  const profile = props.data.searchEditions;
+  const profile = props.data.searchSets;
 
     if(!profile){
       console.log("loading!");
       return (<div>Loading data</div>);
     } else{        
-      const moment = profile.searchSummary.data.data
-      console.log(moment);
-     
+      console.log(props.data.searchSets);
+      let data = props.data.searchSets.searchSummary.data.data;
 
-        moment.map(moment => {
-                let statScore = moment.play.statsPlayerGameScores.points + moment.play.statsPlayerGameScores.rebounds + 
-                    moment.play.statsPlayerGameScores.assists + moment.play.statsPlayerGameScores.steals + 
-                    moment.play.statsPlayerGameScores.blocks;
+        data.map(data => {
 
-                let tripDub = checkTripDub(moment.play.statsPlayerGameScores.points,moment.play.statsPlayerGameScores.rebounds,
-                    moment.play.statsPlayerGameScores.assists, moment.play.statsPlayerGameScores.steals, 
-                    moment.play.statsPlayerGameScores.blocks)
+          let setTier = findSetTier(data.setVisualId);
 
-                let Mome = new Moment({
-                    momentUrl: moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?width=200?w=256&q=75",
-                    player: moment.play.stats.playerName,
-                    teamName: moment.play.stats.teamAtMoment,
-                    setName: moment.set.flowName,
-                    tier: findSetTier(moment.set.setVisualId),
-                    playType: moment.play.stats.playCategory,
-                    circulationCount: moment.circulationCount,
-                    momentDate: moment.play.stats.dateOfMoment,
-                    points: moment.play.statsPlayerGameScores.points,
-                    rebounds: moment.play.statsPlayerGameScores.rebounds,
-                    assists: moment.play.statsPlayerGameScores.assists,
-                    steals: moment.play.statsPlayerGameScores.steals,
-                    blocks: moment.play.statsPlayerGameScores.blocks,
-                    statScore: statScore,
-                    tripDub: tripDub,
-
+                let NewSet = new Set({
+                  setId: data.id,
+                  flowId: data.flowId,
+                  setName: data.flowName,
+                  seriesNumber: data.flowSeriesNumber,
+                  assetPath: data.assetPath,
+                  setVisualID: setTier
                     });
                     
                     try{
                         axios.post('http://localhost:5000/setseed', {
-                          Mome
+                          NewSet
                         });
-                        console.log(Set.player + ' saved')
+                        console.log(NewSet.setName + ' saved')
                         
                     } catch(e){
                         console.log(e);
                         return (<div>Error: {e}</div>);
-                    }                                    
+                    }    
+                    
+           return (<div>Data Saving</div>);
         });
 
-        return (<div>Data Saving</div>);
+        
 
     }
 
@@ -153,4 +140,4 @@ export default graphql(getSetSeedQuery,
               } 
           }          
       }
-  })(SeetSets);
+  })(SeedSets);
