@@ -1,56 +1,39 @@
 
-import { request } from "graphql-request";
-import { gql } from 'apollo-boost'
 import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
 import './App.css';
 import './components/UserProfile';
+import './components/MomentsMaster';
+import { ApolloProvider, InMemoryCache } from "@apollo/client";
+import MomentsMaster from "./components/MomentsMaster";
+import SeedMoments from "./components/SeedMoments";
+import SeedSets from "./components/setSeed";
+import {React, useState, useEffect} from 'react';
+import axios from 'axios';
+import GetMoments from './components/GetMoments';
 
-import {
-  GraphQLObjectType,
-  GraphQLSchema,
-  GraphQLString,
-  graphql,
-  __Schema,
-} from 'graphql';
 
-import { loader } from 'graphql.macro';
-import UserProfile from "./components/UserProfile";
-import { InMemoryCache } from "@apollo/client";
-const schema = loader('../schema.graphql');
 
 
 
 function App() {
 
+  const [sets, setSets] = useState([]);
 
-//   const input = '{'
-//     + '"input" : { '
-//         + '"username" : "jaysonl"'
-//     + '}'
-//   + '}';
- 
+  useEffect(() => {
 
-//   const query = gql`
-//   {
-//     $input : getUserProfileByUsernameInput!) {
-//     getUserProfileByUsername(input:$input) {
-//       publicInfo {
-//         dapperID
-//         flowAddress
-//         username
-//         profileImageUrl
-//         twitterHandle
-//         createdAt
-//         favoriteTeamID
-//       }
-//       momentCount
-//     }
-//   }`;
+      axios.get('http://localhost:5000/getsets')
+          .then(response => {
+            setSets(response.data);
+          })
+      
 
-// request( "https://public-api.nbatopshot.com/graphql/", query, input)
-//   .then(console.log)
-//   .catch(console.error);
+
+      console.log(sets)
+  }, []);
+
+
+  
+
 
 const client = new ApolloClient({
   uri: 'https://public-api.nbatopshot.com/graphql/',
@@ -61,7 +44,11 @@ const client = new ApolloClient({
     <ApolloProvider client={client}>
       <div>
         <h1>Testing Graphql for Topshots!</h1>
-      <UserProfile username={"jaysonl"}/>
+        {sets.length > 0 ? 
+          <GetMoments sets={sets}/>
+          : <div>Loading</div>          
+        }
+           
       </div>
     </ApolloProvider>
   );
