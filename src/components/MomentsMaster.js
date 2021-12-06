@@ -1,207 +1,83 @@
-import { gql } from 'apollo-boost'
-import { graphql } from 'react-apollo';
+import {React, useState, useEffect} from 'react';
+import axios from 'axios';
 
 
-function findSetTier(setVisualId){
-    switch(setVisualId){
-        case "SET_VISUAL_LEGENDARY":
-            return "Legendary"
-        case "SET_VISUAL_RARE":
-            return "Rare"
-    }
-    
-}
 
-function checkTripDub(pts, reb, ast, stl, blk){
-  let statArr = [pts, reb, ast, stl, blk];
-  let count = 0;
+
+export default function MomentsMaster(props){
+
+  const [sortCategory, setSortCategory] = useState('player');
+  const [moments, setMoments] = useState([]);
   
-  statArr.forEach(element => {
-    if(element > 9){
-      count++
-    }
-  });
+  useEffect(() => {
+      axios.get('http://localhost:5000/moments/' + sortCategory)
+          .then(response => {
+            setMoments(response.data);
+          })        
+  }, [sortCategory]);
 
-  if(count >= 3){
-    console.log(count);
-    return 'X';
-  } else {
-    console.log(count);
-    return '';
+  function handleSort(category){
+    sortCategory === category ? 
+    setSortCategory('-' + category)
+    :
+    setSortCategory(category);
   }
-}
 
-const getMomentsMasterQuery = gql`
-query($input:SearchEditionsInput!) 
-{
-  searchEditions(input: $input) 
-  {
-    searchSummary{
-    
-    count{
-      count
-    },
-    
-		data 
-    {
-        data
-        {
-            ... on Edition
-            {
-              id
-              version,         
-              assetPathPrefix,
-              circulationCount,
-              set{
-                id,
-                flowName,
-                flowSeriesNumber,
-                setVisualId
-              }
-              play{
-                id,
-                stats{
-                  playerID,
-                  playerName,
-                  playCategory,                  
-                  teamAtMoment,
-                  dateOfMoment,
-                  homeTeamScore,
-                  awayTeamScore
-                },
-                statsPlayerGameScores{
-                  points,
-                  rebounds,
-                  assists,
-                  steals,
-                  blocks                  
-                },
-                tags{
-                  id,
-                  title,
-                  visible
-                }
-              },
-              set{
-                id,
-                setVisualId,
-								flowId,
-                flowName
-              },
-              setPlay
-              {
-                ID,
-                setID,
-                playID,
-              },
-              challengeID,
-              tags{
-                id,
-                visible,
-                title,
-                level,
-                hardcourt,
-              }
-            }
-          }  
-        }
-      }
-    }
-  }`
-
-
-function Moments(props){
-    const profile = props.data.searchEditions;
-
-    if(!profile){
-        return(
-            <div>
-                <h3>LOADING...</h3>
-            </div>
-        )
-    } else {
-        const moment = profile.searchSummary.data.data
-
-        const rows = moment.map(moment => {
-            return(
-            <tr key={moment.id}>
-                <td><img src={moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?width=200?w=256&q=75"} width="95px" /></td>
-                <td>{moment.play.stats.playerName}</td>
-                <td>{moment.play.stats.teamAtMoment}</td>
-                <td>{moment.set.flowName}</td> 
-                <td>{findSetTier(moment.set.setVisualId)}</td>
-                <td>{moment.play.stats.playCategory}</td>
-                <td>{moment.circulationCount}</td>
-                <td>{moment.play.stats.dateOfMoment}</td>
-                <td>{moment.play.statsPlayerGameScores.points}</td>
-                <td>{moment.play.statsPlayerGameScores.rebounds}</td>
-                <td>{moment.play.statsPlayerGameScores.assists}</td>
-                <td>{moment.play.statsPlayerGameScores.steals}</td>
-                <td>{moment.play.statsPlayerGameScores.blocks}</td>
-                <td>{moment.play.statsPlayerGameScores.points + moment.play.statsPlayerGameScores.rebounds + 
-                     moment.play.statsPlayerGameScores.assists + moment.play.statsPlayerGameScores.steals + 
-                     moment.play.statsPlayerGameScores.blocks
-                    }</td>
-
-                <td>{checkTripDub(moment.play.statsPlayerGameScores.points,moment.play.statsPlayerGameScores.rebounds,
-                     moment.play.statsPlayerGameScores.assists, moment.play.statsPlayerGameScores.steals, 
-                     moment.play.statsPlayerGameScores.blocks)}</td>
-
-                {/* <td>{moment.play.tags.title}</td> */}
-            </tr>)
-        });
-        console.log(moment)
+        if(!moments){
+        return(<div>"Loading"</div>);
+        } else {        
+          console.log(moments);
         return (
-                <div>
-                    <h2>Moments:</h2>
-                    {/* <h2>{profile.publicInfo.username} <img src={profile.publicInfo.profileImageUrl} width="40px;"/></h2> */}
+                <div style={{backgroundColor: "black", color: "white"}}>
+                    <h2>Moments:</h2>                  
                     <table className="momentMaster">
                         <thead>
-                            <td>Moment</td>
-                            <td>Player</td>
-                            <td>Team Name</td>
-                            <td>Set Name</td>
-                            <td>Tier</td>
-                            <td>Play Type</td>
-                            <td>Circulation Count</td>
-                            <td>Date of Moment</td>
-                            <td>Pts</td>
-                            <td>Reb</td>
-                            <td>Ast</td>
-                            <td>Stl</td>
-                            <td>Blk</td>
-                            <td>Stat Score</td>
-                            <td>TD</td>                            
+                            <th>Moment</th>
+                            <th onClick={() => {handleSort('player')}}>Player</th>
+                            <th onClick={() => {handleSort('teamName')}}>Team Name</th>
+                            <th>Set Name</th>
+                            <th>Tier</th>
+                            <th>Play Type</th>
+                            <th>Circulation Count</th>
+                            <th>Date of Moment</th>
+                            <th>Pts</th>
+                            <th>Reb</th>
+                            <th>Ast</th>
+                            <th>Stl</th>
+                            <th>Blk</th>
+                            <th>Stat Score</th>
+                            <th>TD</th>                            
                         </thead>
+
                         <tbody>
-                            {rows}
-                        </tbody>
+                        {moments.map(moment => {
+                          
+                          return(
+                            <tr key={moment._id}>
+                              <td><img src={moment.momentUrl} width="180px" /></td>
+                              <td>{moment.player}</td>
+                              <td>{moment.teamName}</td>
+                              <td>{moment.setName}</td>
+                              <td>{moment.tier}</td>
+                              <td>{moment.playType}</td>
+                              <td>{moment.circulationCount}</td>
+                              <td>{moment.momentDate}</td>
+                              <td>{moment.points}</td>
+                              <td>{moment.rebounds}</td>
+                              <td>{moment.assists}</td>
+                              <td>{moment.steals}</td>
+                              <td>{moment.blocks}</td>
+                              <td>{moment.statScore}</td>
+
+                              </tr>
+                          )
+                          
+                        })}
+                    </tbody>
+
+                        
                     </table>
                 </div>
         )
-    }
-
-};
-
-// export default graphql(getUserProfileQuery)(Profile);
-export default graphql(getMomentsMasterQuery, 
-    { options: 
-        {
-            context: 
-            {
-                headers:
-                {
-                    "user" : "Jayson Lewis - jayson.lewis5@gmail.com - 918.527.0315"
-                }
-            },
-        
-         variables: 
-            { input: 
-                {
-                    "filters":{
-                      "bySetIDs": ["814c5183-596f-41d7-9135-c6b29faa9c6d", "122b048d-585e-4c63-8275-c23949576fd6" ,"708a6f60-5c93-406e-854f-50dd6734c0dd"]
-                    }
-                  } 
-            }          
-        }
-    })(Moments);
+}
+}

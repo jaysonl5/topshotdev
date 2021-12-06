@@ -4,12 +4,9 @@ import './App.css';
 import './components/UserProfile';
 import './components/MomentsMaster';
 import { ApolloProvider, InMemoryCache } from "@apollo/client";
-import MomentsMaster from "./components/MomentsMaster";
-import SeedMoments from "./components/SeedMoments";
-import SeedSets from "./components/setSeed";
 import {React, useState, useEffect} from 'react';
 import axios from 'axios';
-import GetMoments from './components/GetMoments';
+import MomentsMaster from './components/MomentsMaster';
 
 
 
@@ -17,19 +14,19 @@ import GetMoments from './components/GetMoments';
 
 function App() {
 
-  const [sets, setSets] = useState([]);
+  // const [sets, setSets] = useState([]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-      axios.get('http://localhost:5000/getsets')
-          .then(response => {
-            setSets(response.data);
-          })
+  //     axios.get('http://localhost:5000/getsets')
+  //         .then(response => {
+  //           setSets(response.data);
+  //         })
       
 
 
-      console.log(sets)
-  }, []);
+  //     console.log(sets)
+  // }, []);
 
 
   
@@ -42,12 +39,8 @@ const client = new ApolloClient({
 
   return(
     <ApolloProvider client={client}>
-      <div>
-        <h1>Testing Graphql for Topshots!</h1>
-        {sets.length > 0 ? 
-          <GetMoments sets={sets}/>
-          : <div>Loading</div>          
-        }
+      <div>        
+          <MomentsMaster />                  
            
       </div>
     </ApolloProvider>

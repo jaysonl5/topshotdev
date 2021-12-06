@@ -166,6 +166,7 @@ export default function GetMoments({ sets }) {
         moment.play.statsPlayerGameScores.blocks)
 
     let Mome = new Moment({
+        playId: moment.play.id,
         momentUrl: moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?width=200?w=256&q=75",
         player: moment.play.stats.playerName,
         teamName: moment.play.stats.teamAtMoment,

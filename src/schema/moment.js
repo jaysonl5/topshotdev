@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const momentSchema = mongoose.Schema({
+    playId: String,
     momentUrl: String,
     player: String,
     teamName: String,

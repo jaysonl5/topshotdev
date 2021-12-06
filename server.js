@@ -78,6 +78,21 @@ mongoose
             res.send(sets)
           })
 
+          app.get('/moments', async(req,res) => {
+              const moments = await Moment.find();
+              console.log('Moments retrieved: ' + moments)
+              res.send(moments);
+          })
+
+          app.get('/moments/:sortcat', async(req,res) => {
+              console.log(req.params.sortcat);
+              console.log(req.params.sortindex);
+            const sortCategory = req.params.sortcat;
+            const moments = await Moment.find().sort(sortCategory);
+            console.log('sent');
+            res.send(moments);
+        })
+
         app.listen(port, () => {
             console.log(`Server is listening on port: ${port}`);
         });
