@@ -38,10 +38,9 @@ const client = new ApolloClient({
 })  
 
   return(
-    <ApolloProvider client={client}>
-      <div>        
+    <ApolloProvider client={client} style={{backgroundColor: "black"}}>
+      <div style={{backgroundColor: "black"}}>        
           <MomentsMaster />                  
-           
       </div>
     </ApolloProvider>
   );

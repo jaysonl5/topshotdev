@@ -85,12 +85,18 @@ mongoose
           })
 
           app.get('/moments/:sortcat', async(req,res) => {
-              console.log(req.params.sortcat);
-              console.log(req.params.sortindex);
+            const PAGE_SIZE = 25;
+            const page = parseInt(req.query.page || 0);
+            const total = await Moment.countDocuments({});
             const sortCategory = req.params.sortcat;
-            const moments = await Moment.find().sort(sortCategory);
+            const moments = await Moment.find().sort(sortCategory)
+                .limit(PAGE_SIZE)
+                .skip(PAGE_SIZE * page)
             console.log('sent');
-            res.send(moments);
+            res.json({
+                totalPages: Math.ceil(total / PAGE_SIZE),
+                moments
+            });
         })
 
         app.listen(port, () => {
