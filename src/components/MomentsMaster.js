@@ -1,5 +1,6 @@
 import {React, useState, useEffect} from 'react';
 import axios from 'axios';
+import { Table } from 'react-bootstrap';
 
 function formatDate(date){
   var d = new Date(date);
@@ -40,10 +41,11 @@ export default function MomentsMaster(props){
           console.log(moments);
           console.log("PAGES ARR: " + pages);
         return (
-                <div style={{width: "100%", backgroundColor: "black", color: "white"}}>
+                <div  style={{backgroundColor:"black"}}>
                     <h2>Moments:</h2>                  
-                    <table className="momentMaster">
-                        <thead>
+                    <Table striped hover size="sm" variant="dark">
+                        <thead style={{position: "sticky", top: "0"}}>
+                          <tr>
                             <th>Moment</th>
                             <th onClick={() => {handleSort('player')}}>Player</th>
                             <th onClick={() => {handleSort('teamName')}}>Team Name</th>
@@ -58,14 +60,15 @@ export default function MomentsMaster(props){
                             <th onClick={() => {handleSort('steals')}}>Stl</th>
                             <th onClick={() => {handleSort('blocks')}}>Blk</th>
                             <th onClick={() => {handleSort('statScore')}}>Stat Score</th>
-                            <th>TD</th>                            
+                            <th>TD</th>
+                          </tr>
                         </thead>
 
                         <tbody>
                         {moments.map(moment => {
                           return(
                             <tr key={moment._id}>
-                              <td><img src={moment.momentUrl} width="140px" /></td>
+                              <td><img src={moment.momentUrl} width="80px" /></td>
                               <td>{moment.player}</td>
                               <td>{moment.teamName}</td>
                               <td>{moment.setName}</td>
@@ -87,7 +90,7 @@ export default function MomentsMaster(props){
                     </tbody>
 
                         
-                    </table>
+                    </Table>
 
                     <div>
                     {pages.map(pageIndex => {

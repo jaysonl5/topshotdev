@@ -1,22 +1,9 @@
 .App {
-  background-color: black;
   text-align: center;
 }
 
 body{
-  background-color: black;
-}
-
-.momentMaster{
-
-  margin: 20px;
-  padding: 5px;
-}
-
-.momentMaster td{
-
-  padding: 10px;
-  height: 10px;
+  margin: 0;
 }
 
 .pageBtn{

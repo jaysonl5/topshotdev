@@ -7,6 +7,7 @@ import { ApolloProvider, InMemoryCache } from "@apollo/client";
 import {React, useState, useEffect} from 'react';
 import axios from 'axios';
 import MomentsMaster from './components/MomentsMaster';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -38,8 +39,8 @@ const client = new ApolloClient({
 })  
 
   return(
-    <ApolloProvider client={client} style={{backgroundColor: "black"}}>
-      <div style={{backgroundColor: "black"}}>        
+    <ApolloProvider client={client}>
+      <div>        
           <MomentsMaster />                  
       </div>
     </ApolloProvider>
