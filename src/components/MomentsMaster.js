@@ -93,11 +93,7 @@ export default function MomentsMaster(props){
                     </Table>
 
                     <div>
-                    {pages.map(pageIndex => {
-                      return(
-                      <button className="pageBtn" onClick={() => setPageNumber(pageIndex)}>{pageIndex + 1}</button>
-                      )
-                    })}
+                    <Pagination pages={pages} pageNumber={pageNumber} setPageNumber={setPageNumber}/>
                     </div>
                 </div>
         )
