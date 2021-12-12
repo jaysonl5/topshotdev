@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import axios from 'axios';
 import { Table } from 'react-bootstrap';
+import Pagination from './Pagination';
 
 function formatDate(date){
   var d = new Date(date);
@@ -93,7 +94,7 @@ export default function MomentsMaster(props){
                     </Table>
 
                     <div>
-                    <Pagination pages={pages} pageNumber={pageNumber} setPageNumber={setPageNumber}/>
+                      <Pagination pages={pages} pageNumber={pageNumber} setPageNumber={setPageNumber}/>
                     </div>
                 </div>
         )
