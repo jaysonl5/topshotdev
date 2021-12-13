@@ -1,3 +1,11 @@
+@import url(./components/Pagination/pagination.css);
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
 }
@@ -6,17 +14,37 @@ body{
   margin: 0;
 }
 
-.pageBtn{
-  background-color: #333;
-  color: white;
-}
-
-.pagination{
-  margin: 5px;
-  padding: 5px;
+table{
+  padding: 2px;
+  width: 90%;
   color: black;
+  border-radius: 10px;
 }
 
-.pagination button:disabled{
-  visibility: hidden;
+th{
+
+  background-color: lightsalmon;
+}
+
+tr{
+  margin-top: -50px;
+  background-color: #333;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: rgb(45, 45, 45);
+}
+
+tr:hover{
+  background-color: aqua;
+}
+
+td{
+
+}
+td:hover{
+  background-color: rgba(23, 46, 46, 0.685);
+
+  color: #fff;
 }

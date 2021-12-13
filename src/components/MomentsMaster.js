@@ -1,7 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import axios from 'axios';
 import { Table } from 'react-bootstrap';
-import Pagination from './Pagination';
+import Pagination from './Pagination/Pagination';
 
 function formatDate(date){
   var d = new Date(date);
@@ -14,7 +14,7 @@ export default function MomentsMaster(props){
 
   const [sortCategory, setSortCategory] = useState('player');
   const [moments, setMoments] = useState([]);
-  const [numberOfPages, setNumberOfPages] = useState(0)
+  const [numberOfPages, setNumberOfPages] = useState(1)
   const [pageNumber, setPageNumber] = useState(0)
 
   useEffect(() => {
@@ -34,6 +34,8 @@ export default function MomentsMaster(props){
     setSortCategory('-' + category)
     :
     setSortCategory(category);
+
+    setPageNumber(1);
   }
 
         if(!moments){
@@ -44,7 +46,7 @@ export default function MomentsMaster(props){
         return (
                 <div  style={{backgroundColor:"black"}}>
                     <h2>Moments:</h2>                  
-                    <Table striped hover size="sm" variant="dark">
+                    <table>
                         <thead style={{position: "sticky", top: "0"}}>
                           <tr>
                             <th>Moment</th>
@@ -69,7 +71,7 @@ export default function MomentsMaster(props){
                         {moments.map(moment => {
                           return(
                             <tr key={moment._id}>
-                              <td><img src={moment.momentUrl} width="80px" /></td>
+                              <td><img src={moment.momentUrl} width="55px" /></td>
                               <td>{moment.player}</td>
                               <td>{moment.teamName}</td>
                               <td>{moment.setName}</td>
@@ -91,10 +93,13 @@ export default function MomentsMaster(props){
                     </tbody>
 
                         
-                    </Table>
+                    </table>
 
                     <div>
-                      <Pagination pages={pages} pageNumber={pageNumber} setPageNumber={setPageNumber}/>
+                      <Pagination pages={pages} numberOfPages={numberOfPages} 
+                        pageNumber={pageNumber} setPageNumber={setPageNumber}
+                        
+                      />
                     </div>
                 </div>
         )
