@@ -8,43 +8,85 @@
 
 .App {
   text-align: center;
+  
 }
 
 body{
   margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: lightgray;
+}
+
+
+
+.container{
+  background-size:cover;
+  background-repeat: no-repeat;
+  background-blend-mode:overlay;
+  background-position:center;
 }
 
 table{
+  width: 100%;
   padding: 2px;
-  width: 90%;
   color: black;
+  text-indent: initial;
+  border-spacing: 2px;
   border-radius: 10px;
+  box-shadow:
+  1.6px 1.2px 2.2px rgba(0, 0, 0, 0.014),
+  3.9px 2.8px 5.3px rgba(0, 0, 0, 0.02),
+  7.3px 5.3px 10px rgba(0, 0, 0, 0.025),
+  13px 9.4px 17.9px rgba(0, 0, 0, 0.03),
+  24.2px 17.5px 33.4px rgba(0, 0, 0, 0.036),
+  58px 42px 80px rgba(0, 0, 0, 0.05)
+;
+
+}
+
+th:first-child {
+  border-radius: 10px 0 0 0;
+  padding-left: 5px;
+}
+
+th:last-child {
+  border-radius: 0 10px 0 0;
+}
+
+th:only-child{
+  border-radius: 10px 10px 0 0;
+}
+
+.statCol{
+  width: 65px;
 }
 
 th{
-
   background-color: lightsalmon;
 }
 
 tr{
-  margin-top: -50px;
-  background-color: #333;
+  margin: 5px 0 5px 0;
+  border-spacing: 2px;
   text-align: center;
+  border-radius: 10px;
+  background-color: #303041;
+  color: #F4FCFE;
 }
 
 tr:nth-child(even) {
-  background-color: rgb(45, 45, 45);
+  background-color: #3D3A50;
 }
 
 tr:hover{
-  background-color: aqua;
+  background-color:rgba(255, 160, 122, 0.81);
+  color: #333;
 }
 
-td{
 
-}
 td:hover{
-  background-color: rgba(23, 46, 46, 0.685);
+  background-color:rgba(79, 25, 130, 0.534);;
 
-  color: #fff;
+  color: #333;
 }

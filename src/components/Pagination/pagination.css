@@ -12,7 +12,7 @@
   .pagination button{
       margin: 2px;
       color: #666;
-      background-color: black;
+      background-color: rgba(0, 0, 0, 0.44);
       border: none;
       border-radius: 2px;
       outline: none;

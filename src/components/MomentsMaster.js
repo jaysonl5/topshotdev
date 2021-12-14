@@ -44,7 +44,7 @@ export default function MomentsMaster(props){
           console.log(moments);
           console.log("PAGES ARR: " + pages);
         return (
-                <div  style={{backgroundColor:"black"}}>
+                <div>
                     <h2>Moments:</h2>                  
                     <table>
                         <thead style={{position: "sticky", top: "0"}}>
@@ -57,12 +57,12 @@ export default function MomentsMaster(props){
                             <th onClick={() => {handleSort('playType')}}>Play Type</th>
                             <th onClick={() => {handleSort('circulationCount')}}>Circulation Count</th>
                             <th onClick={() => {handleSort('momentDate')}}>Date of Moment</th>
-                            <th onClick={() => {handleSort('points')}}>Pts</th>
-                            <th onClick={() => {handleSort('rebounds')}}>Reb</th>
-                            <th onClick={() => {handleSort('assists')}}>Ast</th>
-                            <th onClick={() => {handleSort('steals')}}>Stl</th>
-                            <th onClick={() => {handleSort('blocks')}}>Blk</th>
-                            <th onClick={() => {handleSort('statScore')}}>Stat Score</th>
+                            <th className="statCol" onClick={() => {handleSort('points')}}>Pts</th>
+                            <th className="statCol" onClick={() => {handleSort('rebounds')}}>Reb</th>
+                            <th className="statCol" onClick={() => {handleSort('assists')}}>Ast</th>
+                            <th className="statCol" onClick={() => {handleSort('steals')}}>Stl</th>
+                            <th className="statCol" onClick={() => {handleSort('blocks')}}>Blk</th>
+                            <th className="statCol" onClick={() => {handleSort('statScore')}}>Stat Score</th>
                             <th>TD</th>
                           </tr>
                         </thead>
@@ -79,13 +79,13 @@ export default function MomentsMaster(props){
                               <td>{moment.playType}</td>
                               <td>{moment.circulationCount}</td>
                               <td>{formatDate(moment.momentDate)}</td>
-                              <td>{moment.points}</td>
-                              <td>{moment.rebounds}</td>
-                              <td>{moment.assists}</td>
-                              <td>{moment.steals}</td>
-                              <td>{moment.blocks}</td>
-                              <td>{moment.statScore}</td>
-
+                              <td className="statCol">{moment.points}</td>
+                              <td className="statCol">{moment.rebounds}</td>
+                              <td className="statCol">{moment.assists}</td>
+                              <td className="statCol">{moment.steals}</td>
+                              <td className="statCol">{moment.blocks}</td>
+                              <td className="statCol">{moment.statScore}</td>
+                              <td className="statCol">{moment.statScore}</td>
                               </tr>
                           )
                           

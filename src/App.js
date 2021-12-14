@@ -40,7 +40,7 @@ const client = new ApolloClient({
 
   return(
     <ApolloProvider client={client}>
-      <div>        
+      <div className='container'>        
           <MomentsMaster />                  
       </div>
     </ApolloProvider>
