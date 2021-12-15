@@ -45,7 +45,8 @@ export default function MomentsMaster(props){
           console.log("PAGES ARR: " + pages);
         return (
                 <div>
-                    <h2>Moments:</h2>                  
+                    <h2>Moments:</h2>   
+                    <div className='tableContainer'>               
                     <table>
                         <thead style={{position: "sticky", top: "0"}}>
                           <tr>
@@ -94,6 +95,7 @@ export default function MomentsMaster(props){
 
                         
                     </table>
+                    </div>
 
                     <div>
                       <Pagination pages={pages} numberOfPages={numberOfPages} 

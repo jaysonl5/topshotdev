@@ -45,6 +45,15 @@ table{
 
 }
 
+.tableContainer{
+
+    border: 1px solid #eeccee;
+    max-height: 300px;
+    overflow-y: scroll;
+    width: 100%;
+
+}
+
 th:first-child {
   border-radius: 10px 0 0 0;
   padding-left: 5px;
