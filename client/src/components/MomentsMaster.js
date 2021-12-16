@@ -18,7 +18,7 @@ export default function MomentsMaster(props){
   const [pageNumber, setPageNumber] = useState(0)
 
   useEffect(() => {
-      axios.get(`http://localhost:5000/moments/` + sortCategory + `?page=${pageNumber}`)
+      axios.get(`/moments/` + sortCategory + `?page=${pageNumber}`)
           .then(response => response.data)
           .then(({totalPages, moments}) => {
             console.log("TOTAL PAGES! " + totalPages)
