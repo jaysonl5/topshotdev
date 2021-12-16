@@ -1,12 +1,126 @@
+@import url(./components/Pagination/pagination.css);
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
+  
+}
+
+.brand{
+  background-image: url(./images/momref.png);
+  height: 15vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 body{
   margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: lightgray;
 }
 
-.pageBtn{
-  background-color: #333;
-  color: white;
+
+
+.container{
+  background-size:cover;
+  background-repeat: no-repeat;
+  background-blend-mode:overlay;
+  background-position:center;
+}
+
+table{
+  width: 100%;
+  padding: 2px;
+  color: black;
+  text-indent: initial;
+  border-spacing: 2px;
+  border-radius: 10px;
+  
+
+}
+
+.tableContainer{
+    border-radius: 5px;
+    max-height: 75vh;
+    overflow-y: scroll;
+    width: 100%;
+    box-shadow:
+    1.6px 1.2px 2.2px rgba(0, 0, 0, 0.014),
+    3.9px 2.8px 5.3px rgba(0, 0, 0, 0.02),
+    7.3px 5.3px 10px rgba(0, 0, 0, 0.025),
+    13px 9.4px 17.9px rgba(0, 0, 0, 0.03),
+    24.2px 17.5px 33.4px rgba(0, 0, 0, 0.036),
+    58px 42px 80px rgba(0, 0, 0, 0.05)
+  ;
+}
+
+.tableContainer::-webkit-scrollbar {
+  width: .4em;
+}
+ 
+.tableContainer::-webkit-scrollbar-track {
+  background-color: #26272841;
+  border-radius: 5px;
+}
+ 
+.tableContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 160, 122, 0.521);
+  border-radius: 5px;
+
+}
+
+th:first-child {
+  border-radius: 10px 0 0 0;
+  padding-left: 5px;
+}
+
+th:last-child {
+  border-radius: 0 10px 0 0;
+}
+
+th:only-child{
+  border-radius: 10px 10px 0 0;
+}
+
+.statCol{
+  width: 65px;
+}
+
+th{
+  background-color: lightsalmon;
+}
+
+th:hover{
+  background-color: rgb(179, 109, 81);
+}
+
+tr{
+  margin: 5px 0 5px 0;
+  border-spacing: 2px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #303041;
+  color: #F4FCFE;
+}
+
+tr:nth-child(even) {
+  background-color: #3D3A50;
+}
+
+tr:hover{
+  background-color:rgba(255, 160, 122, 0.81);
+  color: #333;
+}
+
+
+td:hover{
+  background-color:rgba(226, 142, 109, 0.81);
+  color: #333;
 }

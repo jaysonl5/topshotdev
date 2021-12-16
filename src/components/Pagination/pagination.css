@@ -1,0 +1,38 @@
+
+.pageBtn{
+    background-color: #fff;
+    color: white;
+  }
+  
+  .pagination{
+    margin: 5px;
+    padding: 5px;
+    background-color: rgba(102, 102, 102, 0.048);
+    border-radius: 5px;
+  }
+
+  .pagination button{
+      margin: 2px;
+      color: #666;
+      background-color: rgba(0, 0, 0, 0.098);
+      border: none;
+      border-radius: 10px;
+      padding: 5px 10px 5px 10px;
+      outline: none;
+  }
+
+  .pagination button:hover{
+    margin: 2px;
+    background-color: orangered;
+    color:#fff;
+    border: none;
+    outline: none;
+}
+
+
+  
+  .pagination button:disabled{
+    background-color: lightsalmon;
+    color: #666;
+  }
+  

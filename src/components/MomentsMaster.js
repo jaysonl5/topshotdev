@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import axios from 'axios';
 import { Table } from 'react-bootstrap';
+import Pagination from './Pagination/Pagination';
 
 function formatDate(date){
   var d = new Date(date);
@@ -13,7 +14,7 @@ export default function MomentsMaster(props){
 
   const [sortCategory, setSortCategory] = useState('player');
   const [moments, setMoments] = useState([]);
-  const [numberOfPages, setNumberOfPages] = useState(0)
+  const [numberOfPages, setNumberOfPages] = useState(1)
   const [pageNumber, setPageNumber] = useState(0)
 
   useEffect(() => {
@@ -33,6 +34,8 @@ export default function MomentsMaster(props){
     setSortCategory('-' + category)
     :
     setSortCategory(category);
+
+    setPageNumber(1);
   }
 
         if(!moments){
@@ -41,9 +44,9 @@ export default function MomentsMaster(props){
           console.log(moments);
           console.log("PAGES ARR: " + pages);
         return (
-                <div  style={{backgroundColor:"black"}}>
-                    <h2>Moments:</h2>                  
-                    <Table striped hover size="sm" variant="dark">
+                <div> 
+                    <div className='tableContainer'>               
+                    <table>
                         <thead style={{position: "sticky", top: "0"}}>
                           <tr>
                             <th>Moment</th>
@@ -54,12 +57,12 @@ export default function MomentsMaster(props){
                             <th onClick={() => {handleSort('playType')}}>Play Type</th>
                             <th onClick={() => {handleSort('circulationCount')}}>Circulation Count</th>
                             <th onClick={() => {handleSort('momentDate')}}>Date of Moment</th>
-                            <th onClick={() => {handleSort('points')}}>Pts</th>
-                            <th onClick={() => {handleSort('rebounds')}}>Reb</th>
-                            <th onClick={() => {handleSort('assists')}}>Ast</th>
-                            <th onClick={() => {handleSort('steals')}}>Stl</th>
-                            <th onClick={() => {handleSort('blocks')}}>Blk</th>
-                            <th onClick={() => {handleSort('statScore')}}>Stat Score</th>
+                            <th className="statCol" onClick={() => {handleSort('points')}}>Pts</th>
+                            <th className="statCol" onClick={() => {handleSort('rebounds')}}>Reb</th>
+                            <th className="statCol" onClick={() => {handleSort('assists')}}>Ast</th>
+                            <th className="statCol" onClick={() => {handleSort('steals')}}>Stl</th>
+                            <th className="statCol" onClick={() => {handleSort('blocks')}}>Blk</th>
+                            <th className="statCol" onClick={() => {handleSort('statScore')}}>Stat Score</th>
                             <th>TD</th>
                           </tr>
                         </thead>
@@ -68,7 +71,7 @@ export default function MomentsMaster(props){
                         {moments.map(moment => {
                           return(
                             <tr key={moment._id}>
-                              <td><img src={moment.momentUrl} width="80px" /></td>
+                              <td><img src={moment.momentUrl} width="55px" /></td>
                               <td>{moment.player}</td>
                               <td>{moment.teamName}</td>
                               <td>{moment.setName}</td>
@@ -76,13 +79,13 @@ export default function MomentsMaster(props){
                               <td>{moment.playType}</td>
                               <td>{moment.circulationCount}</td>
                               <td>{formatDate(moment.momentDate)}</td>
-                              <td>{moment.points}</td>
-                              <td>{moment.rebounds}</td>
-                              <td>{moment.assists}</td>
-                              <td>{moment.steals}</td>
-                              <td>{moment.blocks}</td>
-                              <td>{moment.statScore}</td>
-
+                              <td className="statCol">{moment.points}</td>
+                              <td className="statCol">{moment.rebounds}</td>
+                              <td className="statCol">{moment.assists}</td>
+                              <td className="statCol">{moment.steals}</td>
+                              <td className="statCol">{moment.blocks}</td>
+                              <td className="statCol">{moment.statScore}</td>
+                              <td className="statCol">{moment.statScore}</td>
                               </tr>
                           )
                           
@@ -90,14 +93,14 @@ export default function MomentsMaster(props){
                     </tbody>
 
                         
-                    </Table>
+                    </table>
+                    </div>
 
                     <div>
-                    {pages.map(pageIndex => {
-                      return(
-                      <button className="pageBtn" onClick={() => setPageNumber(pageIndex)}>{pageIndex + 1}</button>
-                      )
-                    })}
+                      <Pagination pages={pages} numberOfPages={numberOfPages} 
+                        pageNumber={pageNumber} setPageNumber={setPageNumber}
+                        
+                      />
                     </div>
                 </div>
         )

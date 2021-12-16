@@ -276,3 +276,48 @@ query($input:SearchEditionsInput!)
 }
 
   
+
+query($input:SearchSetsInput!){
+    searchSets(input: $input){
+      searchSummary{
+        data{
+          data{
+            sortID
+            ... on Set
+            {
+              id,
+              flowId,
+              flowName,
+              flowSeriesNumber,
+              assetPath,
+              setVisualId
+            }
+          }
+        },
+        pagination {
+          leftCursor
+        },
+        count{
+          count
+        }
+      }
+    }
+  }
+
+
+{
+"input": 
+              {
+                "filters":{
+                    "byLeagues": ["NBA"]
+                  },
+                  "searchInput": {
+                      "pagination": {
+                      "cursor": "",
+                      "direction": "RIGHT",
+                      "limit": 500000
+                    }
+                  }
+              } 
+}        
+          
