@@ -35,7 +35,7 @@ export default function MomentsMaster(props){
     :
     setSortCategory(category);
 
-    setPageNumber(1);
+    setPageNumber(0);
   }
 
         if(!moments){
