@@ -16,7 +16,7 @@ export default function Pagination ({pageNumber, pages, setPageNumber, numberOfP
 
         console.log("START VALUE: " + startValue)
 
-
+        console.log("PAGE NUMBER: " + pageNumber)
         middlePagination = (
             <>
                 {[...Array(5)].map((_, idx) => (
@@ -25,7 +25,7 @@ export default function Pagination ({pageNumber, pages, setPageNumber, numberOfP
                         disabled={pageNumber === startValue + idx + 1}
                         onClick={() => setPageNumber(startValue + idx + 1)}
                     >                
-                     {startValue + idx + 1}   
+                     {startValue + idx + 2}   
                     </button>                    
                 ))}
 
@@ -43,7 +43,7 @@ export default function Pagination ({pageNumber, pages, setPageNumber, numberOfP
             if((numberOfPages - pageNumber) >= 5){
                 middlePagination= (
                     <>
-                        <button onClick={() => setPageNumber(1)}>1</button>
+                        <button onClick={() => setPageNumber(0)}>1</button>
                         <button>...</button>
                         <button onClick={() => setPageNumber(startValue)}>{startValue}</button>
                         {[...Array(5)].map((_, idx) => (
@@ -69,7 +69,7 @@ export default function Pagination ({pageNumber, pages, setPageNumber, numberOfP
                 let amountLeft = numberOfPages-pageNumber + 5;
                 middlePagination= (
                     <>
-                        <button onClick={() => setPageNumber(1)}>1</button>
+                        <button onClick={() => setPageNumber(0)}>1</button>
                         <button>...</button>
                         <button onClick={() => setPageNumber(startValue)}>{startValue}</button>
                         {[...Array(amountLeft)].map((_, idx) => (
@@ -94,11 +94,11 @@ export default function Pagination ({pageNumber, pages, setPageNumber, numberOfP
        <div className="pagination">
           <button className="pagination__prev" 
           onClick={() => setPageNumber(pageNumber => pageNumber - 1)}
-          disabled={pageNumber === 1}>&#171; prev</button>
+          disabled={pageNumber === 0}>&#171; prev</button>
           {middlePagination}
           <button className="pagination__next"
           onClick={() => setPageNumber(pageNumber => pageNumber + 1)}
-          disabled={pageNumber === pages}>next &#187;</button>
+          disabled={pageNumber === numberOfPages}>next &#187;</button>
        </div>
     )
 

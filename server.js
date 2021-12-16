@@ -85,7 +85,7 @@ mongoose
           })
 
           app.get('/moments/:sortcat', async(req,res) => {
-            const PAGE_SIZE = 25;
+            const PAGE_SIZE = 20;
             const page = parseInt(req.query.page || 0);
             const total = await Moment.countDocuments({});
             const sortCategory = req.params.sortcat;
@@ -94,7 +94,7 @@ mongoose
                 .skip(PAGE_SIZE * page)
             console.log('sent');
             res.json({
-                totalPages: Math.ceil(total / PAGE_SIZE),
+                totalPages: Math.ceil(total / PAGE_SIZE)-1,
                 moments
             });
         })

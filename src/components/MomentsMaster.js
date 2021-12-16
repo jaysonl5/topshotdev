@@ -44,8 +44,7 @@ export default function MomentsMaster(props){
           console.log(moments);
           console.log("PAGES ARR: " + pages);
         return (
-                <div>
-                    <h2>Moments:</h2>   
+                <div> 
                     <div className='tableContainer'>               
                     <table>
                         <thead style={{position: "sticky", top: "0"}}>
