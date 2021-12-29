@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const setSchema = mongoose.Schema({
-    setId: String,
+    setId: {type: String, index: true},
     flowId: String,
     setName: String,
     seriesNumber: String,

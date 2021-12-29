@@ -1,13 +1,11 @@
 import {React, useState, useEffect} from 'react';
 import axios from 'axios';
-import { Table } from 'react-bootstrap';
 import Pagination from './Pagination/Pagination';
 
 function formatDate(date){
   var d = new Date(date);
   var formattedDate = d.toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric'});
   return formattedDate;
-
 }
 
 export default function MomentsMaster(props){

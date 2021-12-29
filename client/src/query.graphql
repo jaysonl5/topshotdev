@@ -179,6 +179,7 @@ query($input:SearchEditionListingsInput!)
     "sortBy":"PRICE_USD_ASC"
     }
   }
+}
 
 
 

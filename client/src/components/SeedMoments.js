@@ -1,6 +1,5 @@
 import axios from 'axios';
 require('dotenv').config();
-const {Moment} = require('../schema/moment');
 const {React} = require('react');
 
 function findSetTier(setVisualId){
@@ -47,7 +46,9 @@ export default function SeedMoments(props){
         props.moment.play.statsPlayerGameScores.assists, props.moment.play.statsPlayerGameScores.steals, 
         props.moment.play.statsPlayerGameScores.blocks)
 
-    let Mome = new Moment({
+    let Mome = {
+        momentId: props.moment.id,
+        playId: props.moment.play.id,
         momentUrl: props.moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?width=200?w=256&q=75",
         player: props.moment.play.stats.playerName,
         teamName: props.moment.play.stats.teamAtMoment,
@@ -64,7 +65,7 @@ export default function SeedMoments(props){
         statScore: statScore,
         tripDub: tripDub,
 
-        });
+        };
 
       try{
           axios.post('http://localhost:5000/momentseed', {

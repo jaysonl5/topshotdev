@@ -1,47 +1,30 @@
 
-import ApolloClient from 'apollo-boost';
 import './App.css';
 import './components/UserProfile';
 import './components/MomentsMaster';
-import { ApolloProvider, InMemoryCache } from "@apollo/client";
 import { React } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MomentsMaster from './components/MomentsMaster';
+import Admin from './components/Admin'
 
+const MomentDisplay = () => (
+<div>
+  <div className='brand'></div>
+  <div className='container'>        
+      <MomentsMaster />                  
+  </div>
+</div>
+);
 
-function App() {
+const App = () => (
+  <Router>
+    <Routes>
+      <Route path="/" element={<MomentDisplay />} />
+      <Route path="admin" element={<Admin />} />
+    </Routes>
+  </Router>
 
-  // const [sets, setSets] = useState([]);
-
-  // useEffect(() => {
-
-  //     axios.get('http://localhost:5000/getsets')
-  //         .then(response => {
-  //           setSets(response.data);
-  //         })
-      
-
-
-  //     console.log(sets)
-  // }, []);
-
-
-  
-
-
-const client = new ApolloClient({
-  uri: 'https://public-api.nbatopshot.com/graphql/',
-  cache: new InMemoryCache()
-})  
-
-  return(
-    <div>
-      <div className='brand'></div>
-      <div className='container'>        
-          <MomentsMaster />                  
-      </div>
-    </div>
-  );
-}
+);
 
 export default App;
 

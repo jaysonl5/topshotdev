@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const {Moment} = require('./schema/moment.js');
 const {Set} = require('./schema/set.js');
+const { MomentListing } = require('./schema/momentListing.js');
 
 
 const app = express();
@@ -50,6 +51,84 @@ mongoose
             }
 
             res.json({Result: "Seed!"})
+          })
+
+          app.post('/momentlistingseed', async (req, res) => {
+            console.log("Saving moment: " + req.body.Mome.player);
+            const moment = new MomentListing({
+                momentId: req.body.Mome.momentId,
+                playId: req.body.Mome.id,
+                momentUrl: req.body.Mome.momentUrl,
+                player: req.body.Mome.playerName,
+                playerId: req.body.Mome.playerId,
+                nbaSeason: req.body.Mome.nbaSeason,
+                teamId: req.body.Mome.teamAtMomentNbaId,    
+                teamName: req.body.Mome.teamAtMoment,
+                playType: req.body.Mome.playType,
+                playCategory: req.body.Mome.playCategory,
+                awayTeamName: req.body.Mome.awayTeamName,
+                awayTeamScore: req.body.Mome.awayTeamScore,
+                homeTeamName: req.body.Mome.homeTeamName,
+                homeTeamScore: req.body.Mome.homeTeamScore,
+                circulationCount: req.body.Mome.circulationCount,
+                momentDate: req.body.Mome.dateOfMoment,
+                set: {
+                  id: req.body.Mome.set.id,
+                  tier: req.body.Mome.set.tier,
+                  flowId: req.body.Mome.set.flowId,        
+                  flowName: req.body.Mome.set.flowName,
+                  flowSeriesNumber: req.body.Mome.set.flowSeriesNumber,
+                  assetPath: req.body.Mome.set.assetPath                            
+                },
+                stats: {
+                  points: req.body.Mome.stats.points,
+                  defensiveRebounds: req.body.Mome.stats.defensiveRebounds,
+                  offensiveRebounds: req.body.Mome.stats.offensiveRebounds,
+                  rebounds: req.body.Mome.stats.rebounds,
+                  assists: req.body.Mome.stats.assists,
+                  assistTurnoverRatio:req.body.Mome.stats.assistTurnoverRatio,
+                  steals: req.body.Mome.stats.steals,
+                  blocks: req.body.Mome.stats.blocks,
+                  statScore: req.body.Mome.stats.statScore,
+                  tripDub: req.body.Mome.stats.tripDub,
+                  twoPointsMade: req.body.Mome.stats.twoPointsMade,
+                  twoPointsAttempted: req.body.Mome.stats.twoPointsAttempted,
+                  twoPointsPercentage: req.body.Mome.stats.twoPointsPercentage,
+                  threePointsMade: req.body.Mome.stats.threePointsMade,
+                  threePointsAttempted: req.body.Mome.stats.threePointsAttempted,
+                  threePointsPercentage: req.body.Mome.stats.threePointsPercentage,
+                  fieldGoalsMade: req.body.Mome.stats.fieldGoalsMade,
+                  fliedGoalsAttempted: req.body.Mome.stats.fliedGoalsAttempted,
+                  fieldGoalsPercentage: req.body.Mome.stats.fieldGoalsPercentage,
+                  freeThrowsMade: req.body.Mome.stats.freeThrowsMade,
+                  freeThrowsAttempted: req.body.Mome.stats.freeThrowsAttempted,
+                  freeThrowsPercentage: req.body.Mome.stats.freeThrowsPercentage,
+                  plusMinus: req.body.Mome.stats.plusMinus
+                },
+                tags: req.body.Mome.tags,
+                setPlay: {
+                  tags: req.body.Mome.setPlay.tags
+                },
+                assets: {
+                  videos: req.body.Mome.assets.videos,
+                  images: req.body.Mome.assets.images
+                },
+                minPrice: req.body.Mome.minPrice,
+                maxPrice: req.body.Mome.maxPrice,
+                avgPrice:  req.body.Mome.avgPrice,
+                avgNumDays:  req.body.Mome.avgNumDays,
+                avgNumSales:  req.body.Mome.avgNumSales,
+                listingCount: req.body.Mome.listingCount,
+                uniqueSellerCount: req.body.Mome.uniqueSellerCount
+            });
+
+            try{
+                await moment.save();
+            } catch(e){
+                console.error(e);
+            }
+
+            res.status(201).end();
           })
 
           app.post('/setseed', async (req, res) => {

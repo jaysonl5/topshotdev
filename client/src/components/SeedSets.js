@@ -2,7 +2,7 @@ import axios from 'axios';
 const { gql } = require('@apollo/client');
 const { graphql, useQuery } = require('react-apollo');
 require('dotenv').config();
-const { Set } = require('../schema/set');
+
 
 
 // const sets = ["814c5183-596f-41d7-9135-c6b29faa9c6d", "122b048d-585e-4c63-8275-c23949576fd6" ,"708a6f60-5c93-406e-854f-50dd6734c0dd"];
