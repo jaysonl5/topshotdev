@@ -15,11 +15,14 @@ export default function Admin(props){
   const [sets, setSets] = useState([]);
   const [seedMome, setSeedMome] = useState(false);
   const [startGetSets, setstartGetSets] = useState(false);
+  const [currentSet, setCurrentSet] = useState('');
+
 
   const client = new ApolloClient({
     uri: 'https://public-api.nbatopshot.com/graphql/',
     cache: new InMemoryCache()
   })  
+
 
   function handleGetSets(e){
     e.preventDefault();
@@ -31,12 +34,13 @@ export default function Admin(props){
 
   function handleGetMomentListings(e){
     e.preventDefault();  
-
+    
     if(sets.length > 0){
+      setCurrentSet(sets[0].setId)
       setSeedMome(true);      
     }
 
-    console.log(sets);
+    console.log(currentSet);
   }
 
     return(
@@ -49,7 +53,8 @@ export default function Admin(props){
         { seedMome ?
         <ApolloProvider client={client}>
           <h2>GET MOMES</h2>
-          <GetMomentListings set={sets} />
+
+          <GetMomentListings set={currentSet} />
         </ApolloProvider> : null }
         </div>
     )

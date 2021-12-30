@@ -59,7 +59,7 @@ mongoose
                 momentId: req.body.Mome.momentId,
                 playId: req.body.Mome.id,
                 momentUrl: req.body.Mome.momentUrl,
-                player: req.body.Mome.playerName,
+                player: req.body.Mome.player,
                 playerId: req.body.Mome.playerId,
                 nbaSeason: req.body.Mome.nbaSeason,
                 teamId: req.body.Mome.teamAtMomentNbaId,    
@@ -128,7 +128,7 @@ mongoose
                 console.error(e);
             }
 
-            res.status(201).end();
+            res.status(201).json({"Saved": `${moment.player} ${moment.set.flowName}`});
           })
 
           app.post('/setseed', async (req, res) => {

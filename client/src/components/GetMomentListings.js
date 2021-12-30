@@ -1,6 +1,6 @@
 import { gql, useLazyQuery, useQuery } from "@apollo/client"
 import axios from 'axios';
-import { useState, React } from 'react';
+import { useState, React, useEffect } from 'react';
 
 const getMomentsMasterQuery = gql`
 query($input:SearchEditionListingsInput!) 
@@ -152,13 +152,12 @@ query($input:SearchEditionListingsInput!)
   }
 
   const sendPostRequest = async (Mome) => {
+    await sleep(10000);
     try {
-      console.log("TRYING")
-        sleep(100000)
         const resp = await axios.post('/momentlistingseed', {
           Mome
         });
-        console.log(resp.data);
+        console.log(resp.data);   
     } catch (err) {
         // Handle Error Here
         console.error(err);
@@ -167,10 +166,9 @@ query($input:SearchEditionListingsInput!)
 
 
 function createMoment(data){
-  console.log(data.searchEditionListings)
         let moments = data.searchEditionListings.data.searchSummary.data.data
-        console.log(moments)
         moments.map(moment => {
+
           let statScore = moment.play.statsPlayerGameScores.points + moment.play.statsPlayerGameScores.rebounds + 
         moment.play.statsPlayerGameScores.assists + moment.play.statsPlayerGameScores.steals + 
         moment.play.statsPlayerGameScores.blocks;
@@ -246,62 +244,46 @@ function createMoment(data){
         uniqueSellerCount: moment.uniqueSellerCount
 
         });
-        sleep(100000)
+
         sendPostRequest(Mome);
-        sleep(100000)
 
         })
 
 }
 
+export default function GetMomentListings({set}) {
+  
+  const { loading, data, error } = useQuery(getMomentsMasterQuery, {       
+    variables: { input: 
+      {
+        "filters":{
+          "bySets": [set]
+        },
+        "searchInput": {
+          "pagination": {
+            "cursor": "",
+            "direction": "LEFT",
+            "limit": 0
+          }
+        },
+        "sortBy":"CREATED_AT_ASC"
+      }
+    }
+  });
 
 
   
-
-export default function GetMomentListings({set}) {
-  console.log(set);
-
-  let setIdArray = []
-  set.map(set => {
-    setIdArray.push(set.setId);
-  })
-
-
-      const { loading, error, data } = useQuery(getMomentsMasterQuery, { 
-        variables: { input: 
-          {
-            "filters":{
-              "bySets": setIdArray
-            },
-            "searchInput": {
-              "pagination": {
-                "cursor": "",
-                "direction": "LEFT",
-                "limit": 0
-              }
-            },
-            "sortBy":"CREATED_AT_ASC"
-          }
-        },
-        context: 
-          {
-              headers:
-              {
-                  "user" : "Jayson Lewis - jayson.lewis5@gmail.com - 918.527.0315"
-              }
-          }    
-      });
+    
 
       if(loading) return <div>Loading Moments from Sets!</div>;
-      if (error) return `Error ${error.message}`;
-      if(data) {        
-        
-        console.log("Create Moment called")
-        createMoment(data);
-        return(
-            <div>
-                <p>Calling seed Momes:</p>                
-            </div>
-        );
+      if (error) return `Error ${error.message}`; 
+      if(data){
+        console.log(data);
+        createMoment(data);    
       }
+      return(
+        <div>
+            Seed!
+        </div>
+      )
 }
