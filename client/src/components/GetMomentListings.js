@@ -244,7 +244,7 @@ function createMoment(data){
         uniqueSellerCount: moment.uniqueSellerCount
 
         });
-
+        console.log("Mome created " + Mome.player)
         sendPostRequest(Mome);
 
         })
@@ -252,6 +252,7 @@ function createMoment(data){
 }
 
 export default function GetMomentListings({set}) {
+  console.log(set)
   
   const { loading, data, error } = useQuery(getMomentsMasterQuery, {       
     variables: { input: 

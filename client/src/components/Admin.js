@@ -1,28 +1,21 @@
 
 
-import { ApolloProvider, InMemoryCache } from "@apollo/client";
+
 import {React, useState, useEffect} from 'react';
 import axios from "axios";
-import { ApolloClient } from "@apollo/client";
-import GetMomentListings from './GetMomentListings'
+import TestListings from './TestListings'
 import SeedSets from './SeedSets'
-import { set } from "mongoose";
+import { ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient } from "@apollo/client"; 
 
 
 export default function Admin(props){
 
-    
   const [sets, setSets] = useState([]);
   const [seedMome, setSeedMome] = useState(false);
   const [startGetSets, setstartGetSets] = useState(false);
-  const [currentSet, setCurrentSet] = useState('');
 
-
-  const client = new ApolloClient({
-    uri: 'https://public-api.nbatopshot.com/graphql/',
-    cache: new InMemoryCache()
-  })  
-
+  
 
   function handleGetSets(e){
     e.preventDefault();
@@ -36,11 +29,10 @@ export default function Admin(props){
     e.preventDefault();  
     
     if(sets.length > 0){
-      setCurrentSet(sets[0].setId)
       setSeedMome(true);      
+      console.log('true')
     }
 
-    console.log(currentSet);
   }
 
     return(
@@ -51,11 +43,10 @@ export default function Admin(props){
         </div>
         { startGetSets ? <SeedSets /> : null }   
         { seedMome ?
-        <ApolloProvider client={client}>
-          <h2>GET MOMES</h2>
+          <TestListings sets={sets} />
 
-          <GetMomentListings set={currentSet} />
-        </ApolloProvider> : null }
+         : null }
+         
         </div>
     )
 
