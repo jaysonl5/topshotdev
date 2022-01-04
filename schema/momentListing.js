@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const momentListingSchema = mongoose.Schema({
-    momentId: {$type: String, index: {unique: true, dropDups: true}},
+    momentId: String,
     playId: String,
     momentUrl: String,
     player: String,

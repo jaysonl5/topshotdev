@@ -147,109 +147,107 @@ query($input:SearchEditionListingsInput!)
     }
   }
 
-  const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-  }
+  function mapMoment(moment){
+  let statScore = moment.play.statsPlayerGameScores.points + moment.play.statsPlayerGameScores.rebounds + 
+  moment.play.statsPlayerGameScores.assists + moment.play.statsPlayerGameScores.steals + 
+  moment.play.statsPlayerGameScores.blocks;
 
-  const sendPostRequest = async (Mome) => {
-    await sleep(10000);
-    try {
-        const resp = await axios.post('/momentlistingseed', {
-          Mome
-        });
-        console.log(resp.data);   
-    } catch (err) {
-        // Handle Error Here
-        console.error(err);
-    }
+  let tripDub = checkTripDub(moment.play.statsPlayerGameScores.points,moment.play.statsPlayerGameScores.rebounds,
+  moment.play.statsPlayerGameScores.assists, moment.play.statsPlayerGameScores.steals, 
+  moment.play.statsPlayerGameScores.blocks)
+
+  let Mome = ({
+    momentId: moment.id,
+    playId: moment.play.id,
+    momentUrl: moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?width=200?w=256&q=75",
+    player: moment.play.stats.playerName,
+    playerId: moment.play.stats.playerId,
+    nbaSeason: moment.play.stats.nbaSeason,
+    teamId: moment.play.stats.teamAtMomentNbaId,    
+    teamName: moment.play.stats.teamAtMoment,
+    playType: moment.play.stats.playType,
+    playCategory: moment.play.stats.playCategory,
+    awayTeamName: moment.play.stats.awayTeamName,
+    awayTeamScore: moment.play.stats.awayTeamScore,
+    homeTeamName: moment.play.stats.homeTeamName,
+    homeTeamScore: moment.play.stats.homeTeamScore,
+    circulationCount: moment.circulationCount,
+    momentDate: moment.play.stats.dateOfMoment,
+    set: {
+      id: moment.set.id,
+      tier: findSetTier(moment.set.setVisualId),
+      flowId: moment.set.flowId,        
+      flowName: moment.set.flowName,
+      flowSeriesNumber: moment.set.flowSeriesNumber,
+      assetPath: moment.set.assetPath                            
+    },
+    stats: {
+      points: moment.play.statsPlayerGameScores.points,
+      defensiveRebounds: moment.play.statsPlayerGameScores.defensiveRebounds,
+      offensiveRebounds: moment.play.statsPlayerGameScores.offensiveRebounds,
+      rebounds: moment.play.statsPlayerGameScores.rebounds,
+      assists: moment.play.statsPlayerGameScores.assists,
+      assistTurnoverRatio: moment.play.statsPlayerGameScores.assistTurnoverRatio,
+      steals: moment.play.statsPlayerGameScores.steals,
+      blocks: moment.play.statsPlayerGameScores.blocks,
+      statScore: statScore,
+      tripDub: tripDub,
+      twoPointsMade: moment.play.statsPlayerGameScores.twoPointsMade,
+      twoPointsAttempted: moment.play.statsPlayerGameScores.twoPointsAttempted,
+      twoPointsPercentage: moment.play.statsPlayerGameScores.twoPointsPercentage,
+      threePointsMade: moment.play.statsPlayerGameScores.threePointsMade,
+      threePointsAttempted: moment.play.statsPlayerGameScores.threePointsAttempted,
+      threePointsPercentage: moment.play.statsPlayerGameScores.threePointsPercentage,
+      fieldGoalsMade: moment.play.statsPlayerGameScores.fieldGoalsMade,
+      fliedGoalsAttempted: moment.play.statsPlayerGameScores.fliedGoalsAttempted,
+      fieldGoalsPercentage: moment.play.statsPlayerGameScores.fieldGoalsPercentage,
+      freeThrowsMade: moment.play.statsPlayerGameScores.freeThrowsMade,
+      freeThrowsAttempted: moment.play.statsPlayerGameScores.freeThrowsAttempted,
+      freeThrowsPercentage: moment.play.statsPlayerGameScores.freeThrowsPercentage,
+      plusMinus: moment.play.statsPlayerGameScores.plusMinus
+    },
+    tags: moment.play.tags,
+    setPlay: {
+      tags: moment.setPlay.tags
+    },
+    assets: {
+      videos: moment.play.assets.videos,
+      images: moment.play.assets.images
+    },
+    minPrice: moment.priceRange.min,
+    maxPrice: moment.priceRange.max,
+    avgPrice: moment.averageSaleData.averagePrice,
+    avgNumDays: moment.averageSaleData.numDays,
+    avgNumSales: moment.averageSaleData.numSales,
+    listingCount: moment.editionListingCount,
+    uniqueSellerCount: moment.uniqueSellerCount
+
+    });
+
+    return Mome;
+}
+
+const sendPostRequest = async (momentsArr) => {
+
+  try {
+
+      await axios.post('/momentlistingseed', {
+        momentsArr
+      });   
+  } catch (err) {
+      // Handle Error Here
+      console.error(err);
+  }
 };
 
-
-function createMoment(data){
-        let moments = data.searchEditionListings.data.searchSummary.data.data
-        moments.map(moment => {
-
-          let statScore = moment.play.statsPlayerGameScores.points + moment.play.statsPlayerGameScores.rebounds + 
-        moment.play.statsPlayerGameScores.assists + moment.play.statsPlayerGameScores.steals + 
-        moment.play.statsPlayerGameScores.blocks;
-
-    let tripDub = checkTripDub(moment.play.statsPlayerGameScores.points,moment.play.statsPlayerGameScores.rebounds,
-        moment.play.statsPlayerGameScores.assists, moment.play.statsPlayerGameScores.steals, 
-        moment.play.statsPlayerGameScores.blocks)
-
-    let Mome = ({
-        momentId: moment.id,
-        playId: moment.play.id,
-        momentUrl: moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?width=200?w=256&q=75",
-        player: moment.play.stats.playerName,
-        playerId: moment.play.stats.playerId,
-        nbaSeason: moment.play.stats.nbaSeason,
-        teamId: moment.play.stats.teamAtMomentNbaId,    
-        teamName: moment.play.stats.teamAtMoment,
-        playType: moment.play.stats.playType,
-        playCategory: moment.play.stats.playCategory,
-        awayTeamName: moment.play.stats.awayTeamName,
-        awayTeamScore: moment.play.stats.awayTeamScore,
-        homeTeamName: moment.play.stats.homeTeamName,
-        homeTeamScore: moment.play.stats.homeTeamScore,
-        circulationCount: moment.circulationCount,
-        momentDate: moment.play.stats.dateOfMoment,
-        set: {
-          id: moment.set.id,
-          tier: findSetTier(moment.set.setVisualId),
-          flowId: moment.set.flowId,        
-          flowName: moment.set.flowName,
-          flowSeriesNumber: moment.set.flowSeriesNumber,
-          assetPath: moment.set.assetPath                            
-        },
-        stats: {
-          points: moment.play.statsPlayerGameScores.points,
-          defensiveRebounds: moment.play.statsPlayerGameScores.defensiveRebounds,
-          offensiveRebounds: moment.play.statsPlayerGameScores.offensiveRebounds,
-          rebounds: moment.play.statsPlayerGameScores.rebounds,
-          assists: moment.play.statsPlayerGameScores.assists,
-          assistTurnoverRatio: moment.play.statsPlayerGameScores.assistTurnoverRatio,
-          steals: moment.play.statsPlayerGameScores.steals,
-          blocks: moment.play.statsPlayerGameScores.blocks,
-          statScore: statScore,
-          tripDub: tripDub,
-          twoPointsMade: moment.play.statsPlayerGameScores.twoPointsMade,
-          twoPointsAttempted: moment.play.statsPlayerGameScores.twoPointsAttempted,
-          twoPointsPercentage: moment.play.statsPlayerGameScores.twoPointsPercentage,
-          threePointsMade: moment.play.statsPlayerGameScores.threePointsMade,
-          threePointsAttempted: moment.play.statsPlayerGameScores.threePointsAttempted,
-          threePointsPercentage: moment.play.statsPlayerGameScores.threePointsPercentage,
-          fieldGoalsMade: moment.play.statsPlayerGameScores.fieldGoalsMade,
-          fliedGoalsAttempted: moment.play.statsPlayerGameScores.fliedGoalsAttempted,
-          fieldGoalsPercentage: moment.play.statsPlayerGameScores.fieldGoalsPercentage,
-          freeThrowsMade: moment.play.statsPlayerGameScores.freeThrowsMade,
-          freeThrowsAttempted: moment.play.statsPlayerGameScores.freeThrowsAttempted,
-          freeThrowsPercentage: moment.play.statsPlayerGameScores.freeThrowsPercentage,
-          plusMinus: moment.play.statsPlayerGameScores.plusMinus
-        },
-        tags: moment.play.tags,
-        setPlay: {
-          tags: moment.setPlay.tags
-        },
-        assets: {
-          videos: moment.play.assets.videos,
-          images: moment.play.assets.images
-        },
-        minPrice: moment.priceRange.min,
-        maxPrice: moment.priceRange.max,
-        avgPrice: moment.averageSaleData.averagePrice,
-        avgNumDays: moment.averageSaleData.numDays,
-        avgNumSales: moment.averageSaleData.numSales,
-        listingCount: moment.editionListingCount,
-        uniqueSellerCount: moment.uniqueSellerCount
-
-        });
-        console.log("Mome created " + Mome.player)
-        sendPostRequest(Mome);
-
-        })
-
+const createMoment = async (data) =>{
+  let moments = data.searchEditionListings.data.searchSummary.data.data
+  if(moments.length > 0){
+    await sendPostRequest(moments);
+  }
 }
+
+
 
 export default function GetMomentListings({set}) {
   console.log(set)
@@ -271,10 +269,6 @@ export default function GetMomentListings({set}) {
       }
     }
   });
-
-
-  
-    
 
       if(loading) return <div>Loading Moments from Sets!</div>;
       if (error) return `Error ${error.message}`; 

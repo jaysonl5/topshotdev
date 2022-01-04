@@ -111,13 +111,8 @@ query($input:SearchEditionsInput!)
     }
   }
 
-  const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-  }
-
   const sendPostRequest = async (Mome) => {
     try {
-        sleep(60000)
         const resp = await axios.post('http://localhost:5000/momentseed', {
           Mome
         });
@@ -155,7 +150,6 @@ export default function GetMoments({ sets }) {
         let moments = data.searchEditions.searchSummary.data.data;
         moments.map(moment => {
           console.log("SeedMoments component call");
-          sleep(1000)
 
           let statScore = moment.play.statsPlayerGameScores.points + moment.play.statsPlayerGameScores.rebounds + 
         moment.play.statsPlayerGameScores.assists + moment.play.statsPlayerGameScores.steals + 

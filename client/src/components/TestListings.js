@@ -1,6 +1,8 @@
 import GetMomentListings from "./GetMomentListings"
 import { ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ApolloClient } from "@apollo/client";
+import { React, useEffect, useState } from 'react'
+
 
 
 const client = new ApolloClient({
@@ -9,14 +11,11 @@ const client = new ApolloClient({
   }) 
 
 export default function TestListings(props){
-    return props.sets.map((set) => (
-       <ApolloProvider client={client}>
-            <GetMomentListings set={set.setId} />
-        </ApolloProvider>
-    )
-        
 
-    )
+        return props.sets.map((set) => (
 
-
+            <ApolloProvider client={client}>
+                <GetMomentListings set={set.setId} />
+            </ApolloProvider>
+        ))
 }
