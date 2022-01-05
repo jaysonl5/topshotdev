@@ -5,6 +5,7 @@ const createHttpLink = require("apollo-link-http").createHttpLink;
 const setContext = require("apollo-link-context").setContext;
 const InMemoryCache = require("apollo-cache-inmemory").InMemoryCache;
 
+
 const httpLink = createHttpLink({
   uri: "https://public-api.nbatopshot.com/graphql/",
   fetch: fetch
@@ -16,6 +17,7 @@ const client = new ApolloClient({
 });
 
 const query = async (req, res) => {
+  console.log(req.body);
     if (!req.body || !req.body.query) {
       res.sendStatus(500);
       return;
@@ -33,6 +35,7 @@ const query = async (req, res) => {
         query,
         variables
       });
+      console.log(result);
       res.json(result);
     } catch (err) {
       console.log(err);
@@ -65,6 +68,9 @@ const query = async (req, res) => {
   };
 
   const apollo = async (req, res, next) => {
+    console.log("********** REQUEST ****")
+    console.log(req.body)
+    console.log(req.method)
     switch (req.method) {
       case "POST":
       case "PUT":
@@ -73,7 +79,11 @@ const query = async (req, res) => {
   
       case "GET":
       default:
-        await query(req, res);
+        await query(req, res)
+        .then()
+        .catch((error) => {
+          console.log(error);
+        })
     }
     
     next();

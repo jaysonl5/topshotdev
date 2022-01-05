@@ -10,10 +10,13 @@
     "apollo": "^2.32.5",
     "apollo-boost": "^0.4.9",
     "apollo-cli": "^0.4.0",
+    "axios": "^0.24.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "follow-redirects": "^1.14.6",
+    "got": "^12.0.0",
     "mongoose": "^6.0.13",
     "web-vitals": "^1.0.1"
   },
