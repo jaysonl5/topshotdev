@@ -10,7 +10,7 @@ const saveSets = (responseData) => {
     .then(() => {
     if(setsArr.length > 0){
         setsArr.map(async (set) => {            
-            console.log(set.setVisualId)
+            console.log(set.flowName + " saved")
             const newSet = new Set({
                 setId: set.id,
                 flowId: set.flowId,

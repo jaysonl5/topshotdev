@@ -17,7 +17,6 @@ const client = new ApolloClient({
 });
 
 const query = async (req, res) => {
-  console.log(req.body);
     if (!req.body || !req.body.query) {
       res.sendStatus(500);
       return;
@@ -69,7 +68,6 @@ const query = async (req, res) => {
 
   const apollo = async (req, res, next) => {
     console.log("********** REQUEST ****")
-    console.log(req.body)
     console.log(req.method)
     switch (req.method) {
       case "POST":
