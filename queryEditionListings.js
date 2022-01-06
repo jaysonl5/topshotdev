@@ -117,7 +117,7 @@ const queryEditionListings = (sets) => {
         }
     }
     }`,
-    variables: {"input":{"filters":{"bySets":sets},"searchInput":{"pagination":{"cursor":"","direction":"LEFT","limit":0}},"sortBy":"CREATED_AT_ASC"}}
+    variables: {"input":{"filters":{"bySets":[sets]},"searchInput":{"pagination":{"cursor":"","direction":"LEFT","limit":0}},"sortBy":"CREATED_AT_ASC"}}
     });
 
     var config = {

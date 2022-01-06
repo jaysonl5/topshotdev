@@ -80,7 +80,7 @@ const saveEditionListings = (responseData) => {
             });
 
             try{
-                await newMomentListing.save();
+                await newMomentListing.update({upsert: true});
             } catch(e){
                 console.log(e);
             }

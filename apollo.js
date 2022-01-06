@@ -4,6 +4,9 @@ const fetch = require("node-fetch");
 const createHttpLink = require("apollo-link-http").createHttpLink;
 const setContext = require("apollo-link-context").setContext;
 const InMemoryCache = require("apollo-cache-inmemory").InMemoryCache;
+const mongoose = require('mongoose');
+const {Set} = require('./schema/set.js');
+require('dotenv').config();
 
 
 const httpLink = createHttpLink({
@@ -69,6 +72,7 @@ const query = async (req, res) => {
   const apollo = async (req, res, next) => {
     console.log("********** REQUEST ****")
     console.log(req.method)
+
     switch (req.method) {
       case "POST":
       case "PUT":
@@ -76,12 +80,30 @@ const query = async (req, res) => {
         break;
   
       case "GET":
-      default:
-        await query(req, res)
-        .then()
-        .catch((error) => {
-          console.log(error);
-        })
+        switch(req.path){ 
+          case "/getsets":
+            mongoose
+            .connect(process.env.DB_CONNECTION, { useNewUrlParser: true })
+            .then(() => {
+                let retrieveSets = async() => {
+                  let sets = await Set.find()    
+                  console.log(sets[0].setId);  
+                  res.send(sets);                           
+                }
+
+                retrieveSets().then()
+                .catch((e) => console.log(e.message))
+              })
+              break;
+          case "/":
+              console.log("/ getting hit")
+              await query(req, res)
+              .then()
+              .catch((error) => {
+                console.log(error);
+              })
+        }
+      
     }
     
     next();
