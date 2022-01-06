@@ -1,4 +1,5 @@
 var axios = require('axios');
+var saveEditionListings = require('./saveEditionListings')
 
 const queryEditionListings = (sets) => {
         
@@ -130,9 +131,15 @@ const queryEditionListings = (sets) => {
 
 
     axios(config)
-    .then(function (response) {
-        let moments = response.data.data.searchEditionListings.data.searchSummary.data.data        
-        return moments
+    .then(async function (response) {
+        if(response.data){
+            try{
+            await saveEditionListings.saveEditionListings(response.data);
+            } catch(e){
+                console.log(e)
+            }
+        }
+        
     })
     .catch(function (error) {
     console.log(error);

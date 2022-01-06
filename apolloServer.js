@@ -5,10 +5,17 @@ var bodyParser = require('body-parser');
 const port = 3001;
 
 const apollo = require("./apollo");
-const res = require("express/lib/response");
+
 
 app.use(express.json());
 app.use(cors())
 app.use(apollo);
 app.use(bodyParser.json)
+
+app.get('/getsets', async(req,res) => {
+    const sets = await Set.find()
+    console.log('SETS Retrieved!: ' + sets);
+    res.send(sets)
+  })
+
 app.listen(port, console.log(`Example app listening on port ${port}!`))
