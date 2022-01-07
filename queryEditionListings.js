@@ -2,6 +2,14 @@ var axios = require('axios');
 var saveEditionListings = require('./saveEditionListings')
 
 const queryEditionListings = (sets) => {
+
+    let setIdArray = [];
+    sets.map((set) => {
+        setIdArray.push(set.id);
+    })
+
+    console.log("SET ID ARRAY: ");
+    console.log(setIdArray)
         
     var data = JSON.stringify({
     query: `query($input:SearchEditionListingsInput!) 
@@ -85,7 +93,7 @@ const queryEditionListings = (sets) => {
                 set{
                     id,                
                     setVisualId,
-                                    flowId,
+                    flowId,
                     flowName,
                     flowSeriesNumber,
                     assetPath
@@ -117,7 +125,7 @@ const queryEditionListings = (sets) => {
         }
     }
     }`,
-    variables: {"input":{"filters":{"bySets":[sets]},"searchInput":{"pagination":{"cursor":"","direction":"LEFT","limit":0}},"sortBy":"CREATED_AT_ASC"}}
+    variables: {"input":{"filters":{"bySets":setIdArray},"searchInput":{"pagination":{"cursor":"","direction":"LEFT","limit":0}},"sortBy":"CREATED_AT_ASC"}}
     });
 
     var config = {
@@ -136,13 +144,13 @@ const queryEditionListings = (sets) => {
             try{
             await saveEditionListings.saveEditionListings(response.data);
             } catch(e){
-                console.log(e)
+                console.log(e.message)
             }
         }
         
     })
     .catch(function (error) {
-    console.log(error);
+    console.log(error.message);
     });
 
 }

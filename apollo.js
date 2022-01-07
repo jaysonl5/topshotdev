@@ -26,6 +26,8 @@ const query = async (req, res) => {
     }
   
     const query = gql(req.body.query);
+    console.log("QUERY: ")
+    console.log(req.body.query)
     let variables = undefined;
     if (req.body.variables) {
         console.log(req.body.variables);
@@ -40,7 +42,7 @@ const query = async (req, res) => {
       console.log(result);
       res.json(result);
     } catch (err) {
-      console.log(err);
+      console.log("ERROR: " + err.message + " " + variables.input.filters.bySets);
       res.sendStatus(500).send(JSON.stringify(err));
     }
   };
@@ -100,7 +102,7 @@ const query = async (req, res) => {
               await query(req, res)
               .then()
               .catch((error) => {
-                console.log(error);
+                console.log("ERROR: " + error.message);
               })
         }
       

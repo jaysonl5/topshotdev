@@ -5,12 +5,53 @@ const {MomentListing} = require('./schema/momentListing.js');
 const saveEditionListings = (responseData) => {
     let editionsArr = responseData.data.searchEditionListings.data.searchSummary.data.data;
     
+    
+    function checkTripDub(pts, reb, ast, stl, blk){
+        let statArr = [pts, reb, ast, stl, blk];
+        let count = 0;
+        
+        statArr.forEach(element => {
+          if(element > 9){
+            count++
+          }
+        });
+      
+        if(count >= 3){
+          return 'X';
+        } else {
+          return '';
+        }
+      }
+
+      function findSetTier(setVisualId){
+        switch(setVisualId){
+            case "SET_VISUAL_LEGENDARY":
+                return "Legendary"
+            case "SET_VISUAL_RARE":
+                return "Rare"
+            case "SET_VISUAL_COMMON":
+                return "Common"
+            case "SET_VISUAL_FANDOM":
+                return "Fandom"
+        }    
+      }
+
+
+
     mongoose
 	.connect(process.env.DB_CONNECTION, { useNewUrlParser: true })
     .then(() => {
     if(editionsArr.length > 0){
         editionsArr.map(async (edition) => {            
-            console.log(edition.play.stats.playerName)
+            
+            let statScore = edition.play.statsPlayerGameScores.points + edition.play.statsPlayerGameScores.rebounds + 
+            edition.play.statsPlayerGameScores.assists + edition.play.statsPlayerGameScores.steals + 
+            edition.play.statsPlayerGameScores.blocks;
+          
+            let tripDub = checkTripDub(edition.play.statsPlayerGameScores.points,edition.play.statsPlayerGameScores.rebounds,
+            edition.play.statsPlayerGameScores.assists, edition.play.statsPlayerGameScores.steals, 
+            edition.play.statsPlayerGameScores.blocks)
+
             const newMomentListing = new MomentListing({
             momentId: edition.id,
             playId: edition.play.id,
@@ -81,8 +122,9 @@ const saveEditionListings = (responseData) => {
 
             try{
                 await newMomentListing.update({upsert: true});
+                console.log(edition.play.stats.playerName)
             } catch(e){
-                console.log(e);
+                console.log(e.message);
             }
         })
     }

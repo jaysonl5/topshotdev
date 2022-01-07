@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 const {Set} = require('./schema/set.js');
+const queryEditionListings = require('./queryEditionListings')
 
 const saveSets = (responseData) => {
     let setsArr = responseData.data.searchSets.searchSummary.data.data;
@@ -26,6 +27,8 @@ const saveSets = (responseData) => {
                 console.log(e);
             }
         })
+
+
     }
 })
 }

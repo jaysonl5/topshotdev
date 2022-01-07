@@ -42,11 +42,12 @@ const querySets = async () => {
     data : data
   };
 
-  axios(config)
+  let results = axios(config)
   .then(async (response) => {
       if(response.data){
           try{
-          await saveSets.saveSets(response.data);          
+          await saveSets.saveSets(response.data); 
+          return response.data;         
           } catch(e){
               console.log(e)
           }        
@@ -56,6 +57,10 @@ const querySets = async () => {
   .catch(function (error) {
     console.log(error);
   })
+
+  return results;
 }
+
+
 
 exports.querySets = querySets
