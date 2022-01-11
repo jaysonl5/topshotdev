@@ -117,10 +117,6 @@ const saveEditions = (responseData) => {
                     unavailableForPurchase: edition.setPlay.circulations.unavailableForPurchase
                 }
             },
-            assets: {
-            videos: edition.play.assets.videos,
-            images: edition.play.assets.images
-            },
             
             });
 

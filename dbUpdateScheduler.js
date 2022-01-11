@@ -12,11 +12,11 @@ const dbUpdateScheduler = async () =>{
        let sets = setData.data.searchSets.searchSummary.data.data;
        
        let editions = []
-    //    for(let i = 0; i < sets.length; i++){
-            let subArr = ['e7b9646c-9997-46c8-909f-2a2b67389023']
+       for(let i = 0; i < sets.length; i++){
+            let subArr = [sets[i]]
             editions = await queryEditions.queryEditions([sets[0]]);
             saveEditions(editions)
-        // }
+        }
     // })
 
 

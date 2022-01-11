@@ -74,20 +74,7 @@ const momentSchema = mongoose.Schema({
 
         }
 
-    },
-    assets: {
-        videos: [{
-            type: String,
-            url: String,
-            videoLength: Number,
-            __typename: String
-        }],
-        images: [{
-            type: String,
-            url: String,
-            __typename: String
-        }]
-    },
+    }
     
 },
 { typeKey: '$type'}
