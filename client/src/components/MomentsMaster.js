@@ -52,18 +52,18 @@ export default function MomentsMaster(props){
                             <th>Moment</th>
                             <th onClick={() => {handleSort('player')}}>Player</th>
                             <th onClick={() => {handleSort('teamName')}}>Team Name</th>
-                            <th onClick={() => {handleSort('setName')}}>Set Name</th>
-                            <th onClick={() => {handleSort('tier')}}>Tier</th>
+                            <th onClick={() => {handleSort('set.flowName')}}>Set Name</th>
+                            <th onClick={() => {handleSort('set.tier')}}>Tier</th>
                             <th onClick={() => {handleSort('playType')}}>Play Type</th>
                             <th onClick={() => {handleSort('circulationCount')}}>Circulation Count</th>
                             <th onClick={() => {handleSort('momentDate')}}>Date of Moment</th>
-                            <th className="statCol" onClick={() => {handleSort('points')}}>Pts</th>
-                            <th className="statCol" onClick={() => {handleSort('rebounds')}}>Reb</th>
-                            <th className="statCol" onClick={() => {handleSort('assists')}}>Ast</th>
-                            <th className="statCol" onClick={() => {handleSort('steals')}}>Stl</th>
-                            <th className="statCol" onClick={() => {handleSort('blocks')}}>Blk</th>
-                            <th className="statCol" onClick={() => {handleSort('statScore')}}>Stat Score</th>
-                            <th>TD</th>
+                            <th className="statCol" onClick={() => {handleSort('stats.points')}}>Pts</th>
+                            <th className="statCol" onClick={() => {handleSort('stats.rebounds')}}>Reb</th>
+                            <th className="statCol" onClick={() => {handleSort('stats.assists')}}>Ast</th>
+                            <th className="statCol" onClick={() => {handleSort('stats.steals')}}>Stl</th>
+                            <th className="statCol" onClick={() => {handleSort('stats.blocks')}}>Blk</th>
+                            <th className="statCol" onClick={() => {handleSort('stats.statScore')}}>Stat Score</th>
+                            <th className="statCol" onClick={() => {handleSort('stats.tripDub')}}>Trip Dub</th>
                           </tr>
                         </thead>
 
@@ -74,18 +74,18 @@ export default function MomentsMaster(props){
                               <td><img src={moment.momentUrl} width="55px" /></td>
                               <td>{moment.player}</td>
                               <td>{moment.teamName}</td>
-                              <td>{moment.setName}</td>
-                              <td>{moment.tier}</td>
+                              <td>{moment.set.flowName}</td>
+                              <td>{moment.set.tier}</td>
                               <td>{moment.playType}</td>
                               <td>{moment.circulationCount}</td>
                               <td>{formatDate(moment.momentDate)}</td>
-                              <td className="statCol">{moment.points}</td>
-                              <td className="statCol">{moment.rebounds}</td>
-                              <td className="statCol">{moment.assists}</td>
-                              <td className="statCol">{moment.steals}</td>
-                              <td className="statCol">{moment.blocks}</td>
-                              <td className="statCol">{moment.statScore}</td>
-                              <td className="statCol">{moment.statScore}</td>
+                              <td className="statCol">{moment.stats.points}</td>
+                              <td className="statCol">{moment.stats.rebounds}</td>
+                              <td className="statCol">{moment.stats.assists}</td>
+                              <td className="statCol">{moment.stats.steals}</td>
+                              <td className="statCol">{moment.stats.blocks}</td>
+                              <td className="statCol">{moment.stats.statScore}</td>
+                              <td className="statCol">{moment.stats.tripDub}</td>
                               </tr>
                           )
                           
