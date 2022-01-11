@@ -13,8 +13,8 @@ const dbUpdateScheduler = async () =>{
        
        let editions = []
        for(let i = 0; i < sets.length; i++){
-            let subArr = [sets[i]]
-            editions = await queryEditions.queryEditions([sets[0]]);
+            // let subArr = [sets[i]]
+            editions = await queryEditions.queryEditions([sets[i]]);
             saveEditions(editions)
         }
     // })
