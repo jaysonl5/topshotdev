@@ -7,17 +7,16 @@ const { saveEditions } = require('./saveEditions')
 
 const dbUpdateScheduler = async () =>{
 
-    // cron.schedule('30 49 15 * * *', () => {
+    cron.schedule('30 49 15 * * *', () => {
        let setData = await querySets.querySets();
        let sets = setData.data.searchSets.searchSummary.data.data;
        
        let editions = []
        for(let i = 0; i < sets.length; i++){
-            // let subArr = [sets[i]]
             editions = await queryEditions.queryEditions([sets[i]]);
             saveEditions(editions)
         }
-    // })
+    })
 
 
 }
