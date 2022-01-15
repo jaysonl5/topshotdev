@@ -121,7 +121,7 @@ const saveEditions = (responseData) => {
             });
 
             try{
-                await newMoment.save();
+                await newMoment.update({upsert: true});
                 console.log(edition.play.stats.playerName)
             } catch(e){
                 console.log(e.message);

@@ -1,15 +1,10 @@
 var axios = require('axios');
 var saveEditionListings = require('./saveEditionListings')
 
-const queryEditionListings = (sets) => {
+const queryEditionListings = (edition) => {
 
-    let setIdArray = [];
-    sets.map((set) => {
-        setIdArray.push(set.id);
-    })
-
-    console.log("SET ID ARRAY: ");
-    console.log(setIdArray)
+    // console.log("************* EDITION ************ ");
+    // console.log(edition.set.id + " " + edition.play.id)
         
     var data = JSON.stringify({
     query: `query($input:SearchEditionListingsInput!) 
@@ -125,7 +120,7 @@ const queryEditionListings = (sets) => {
         }
     }
     }`,
-    variables: {"input":{"filters":{"bySets":setIdArray},"searchInput":{"pagination":{"cursor":"","direction":"LEFT","limit":0}},"sortBy":"CREATED_AT_ASC"}}
+    variables: {"input":{"filters":{"byPlayIDs":[edition.play.id], "bySets": [edition.set.id]},"searchInput":{"pagination":{"cursor":"","direction":"LEFT","limit":0}},"sortBy":"CREATED_AT_ASC"}}
     });
 
     var config = {
@@ -138,7 +133,7 @@ const queryEditionListings = (sets) => {
     };
 
 
-    axios(config)
+    let editionListings = axios(config)
     .then(async function (response) {
         if(response.data){
             try{
@@ -153,6 +148,7 @@ const queryEditionListings = (sets) => {
     console.log(error.message);
     });
 
+    return editionListings
 }
 
 exports.queryEditionListings = queryEditionListings

@@ -7,9 +7,6 @@ const queryEditions = (sets) => {
     sets.map((set) => {
         setIdArray.push(set.id);
     })
-
-    console.log("SET ID ARRAY: ");
-    console.log(setIdArray)
         
     var data = JSON.stringify({
     query: `query($input:SearchEditionsInput!) 
