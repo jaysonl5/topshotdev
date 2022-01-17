@@ -7,119 +7,81 @@ const queryEditionListings = (edition) => {
     // console.log(edition.set.id + " " + edition.play.id)
         
     var data = JSON.stringify({
-    query: `query($input:SearchEditionListingsInput!) 
-    {
-    searchEditionListings(input: $input) 
-    {
-            data 
+    query: `# Write your query or mutation here
+    query($input:SearchEditionListingsInput!) 
         {
-        filters 
+        searchEditionListings(input: $input) 
         {
-            byPlayers
-        },
-        sortBy,
-        searchSummary
-        {
-            data
+                data 
             {
-            data
+            filters 
             {
-                ... on EditionListing
+                byPlayers
+            },
+            sortBy,
+            searchSummary
+            {
+                data
                 {
-                id,              
-                assetPathPrefix,
-                play{
-                    id,
-                    stats{
-                    playerID,
-                    playerName,
-                    nbaSeason,
-                    teamAtMoment,
-                    teamAtMomentNbaId,
-                    dateOfMoment,    
-                    playType,
-                    playCategory,
-                    awayTeamName,
-                    awayTeamScore,
-                    homeTeamName,
-                    homeTeamScore
-                    },                
-                    statsPlayerGameScores{
-                    twoPointsMade,
-                    twoPointsAttempted,
-                    twoPointsPercentage,
-                    threePointsMade,
-                    threePointsAttempted,
-                    threePointsPercentage,
-                    fieldGoalsMade,
-                    fieldGoalsAttempted,
-                    fieldGoalsPercentage,
-                    freeThrowsMade,
-                    freeThrowsAttempted,
-                    freeThrowsPercentage
-                    points,
-                    defensiveRebounds,
-                    offensiveRebounds,
-                    rebounds,
-                    assists,
-                    assistTurnoverRatio,
-                    steals,
-                    blocks,
-                    plusMinus,
-                    
-                    },
-                    tags{
-                    id
-                    title,
-                    visible,                                  
-                    }
-                    assets{
-                    videos{
-                        url,
-                        videoLength,
-                        type                    
-                    },
-                    images{
-                        url,
-                        type
-                    }
-                    }
-                },
-                set{
-                    id,                
-                    setVisualId,
-                    flowId,
-                    flowName,
-                    flowSeriesNumber,
-                    assetPath
-                },
-                setPlay{
-                    tags{
-                    title,
-                    id
-                    }
-                }
-                priceRange
+                data
                 {
-                    min,
-                    max,                
-                },
-                averageSaleData{
-                    averagePrice,
-                    numDays,
-                    numSales
+                    ... on EditionListing
+                    {
+                    id,              
+                    assetPathPrefix,
+                    play{
+                        id,
+                        stats{
+                            playerName
+                        },                 
+                        tags{
+                        id
+                        title,
+                        visible,                                  
+                        }
+                        assets{
+                          videos{
+                              url,
+                              videoLength,
+                              type                    
+                          },
+                          images{
+                              url,
+                              type
+                          }
+                        }
+                    },
+                    set{
+                        id,                
+                        flowName,
+                    },
+                    setPlay{
+                        tags{
+                        title,
+                        id
+                        }
+                    }
+                    priceRange
+                    {
+                        min,
+                        max,                
+                    },
+                    averageSaleData{
+                        averagePrice,
+                        numDays,
+                        numSales
+                    }
+                    ,
+                    editionListingCount,
+                    uniqueSellerCount,
+                    userOwnedEditionsCount
+                    }
+                }  
                 }
-                ,
-                editionListingCount,
-                uniqueSellerCount,
-                userOwnedEditionsCount
-                }
-            }  
+            }
             }
         }
-        }
-    }
-    }`,
+        }`,
     variables: {"input":{"filters":{"byPlayIDs":[edition.play.id], "bySets": [edition.set.id]},"searchInput":{"pagination":{"cursor":"","direction":"LEFT","limit":0}},"sortBy":"CREATED_AT_ASC"}}
     });
 
@@ -137,7 +99,8 @@ const queryEditionListings = (edition) => {
     .then(async function (response) {
         if(response.data){
             try{
-            await saveEditionListings.saveEditionListings(response.data);
+            // await saveEditionListings.saveEditionListings(response.data);
+                return response.data
             } catch(e){
                 console.log(e.message)
             }

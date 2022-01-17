@@ -69,117 +69,120 @@ query{
 
 # Write your query or mutation here
 query($input:SearchEditionListingsInput!) 
-{
-  searchEditionListings(input: $input) 
-  {
-		data 
     {
-      filters 
-      {
-        byPlayers
-      },
-      sortBy,
-      searchSummary
-      {
-        data
+    searchEditionListings(input: $input) 
+    {
+            data 
         {
-          data
-          {
-            sortID
-            ... on EditionListing
+        filters 
+        {
+            byPlayers
+        },
+        sortBy,
+        searchSummary
+        {
+            data
             {
-              id,
-              version,
-              # sortID,
-              assetPathPrefix,
-              play{
-                id,
-                stats{
-                  playerID,
-                  teamAtMomentNbaId,
-                  dateOfMoment
+            data
+            {
+                ... on EditionListing
+                {
+                id,              
+                assetPathPrefix,
+                play{
+                    id,
+                    stats{
+                    playerID,
+                    playerName,
+                    nbaSeason,
+                    teamAtMoment,
+                    teamAtMomentNbaId,
+                    dateOfMoment,    
+                    playType,
+                    playCategory,
+                    awayTeamName,
+                    awayTeamScore,
+                    homeTeamName,
+                    homeTeamScore
+                    },                
+                    statsPlayerGameScores{
+                    twoPointsMade,
+                    twoPointsAttempted,
+                    twoPointsPercentage,
+                    threePointsMade,
+                    threePointsAttempted,
+                    threePointsPercentage,
+                    fieldGoalsMade,
+                    fieldGoalsAttempted,
+                    fieldGoalsPercentage,
+                    freeThrowsMade,
+                    freeThrowsAttempted,
+                    freeThrowsPercentage
+                    points,
+                    defensiveRebounds,
+                    offensiveRebounds,
+                    rebounds,
+                    assists,
+                    assistTurnoverRatio,
+                    steals,
+                    blocks,
+                    plusMinus,
+                    
+                    },
+                    tags{
+                    id
+                    title,
+                    visible,                                  
+                    }
+                    assets{
+                    videos{
+                        url,
+                        videoLength,
+                        type                    
+                    },
+                    images{
+                        url,
+                        type
+                    }
+                    }
                 },
-                statsPlayerGameScores{
-                  twoPointsMade,
-                  twoPointsAttempted,
-                  twoPointsPercentage,
-                  threePointsMade,
-                  threePointsAttempted,
-                  threePointsPercentage,
-                  fieldGoalsMade,
-                  fieldGoalsAttempted,
-                  fieldGoalsPercentage,
-                  points,
-                  rebounds,
-                  assists
+                set{
+                    id,                
+                    setVisualId,
+                    flowId,
+                    flowName,
+                    flowSeriesNumber,
+                    assetPath
                 },
-                tags{
-                  id
-                  title,
-                  visible,                
-                  hardcourt
+                setPlay{
+                    tags{
+                    title,
+                    id
+                    }
                 }
-                assets{
-                  videos{
-                    url,
-                    videoLength,
-                    type                    
-                  }
-                }
-              },
-              set{
-                id,
-                setVisualId,
-								flowId,
-                flowName,
-                assets{
-                  images{
-                    url,
-                    type
-                  }
+                priceRange
+                {
+                    min,
+                    max,                
                 },
-                assetPath
-              },
-              setPlay
-              {
-                ID,
-                setID,
-                playID,
-                flowRetired,
-              },
-              priceRange
-              {
-              	min,
-                max
-              },
-              editionListingCount,
-              uniqueSellerCount,
-              userOwnedEditionsCount,
+                averageSaleData{
+                    averagePrice,
+                    numDays,
+                    numSales
+                }
+                ,
+                editionListingCount,
+                uniqueSellerCount,
+                userOwnedEditionsCount
+                }
+            }  
             }
-          }  
         }
-      }
+        }
     }
-  }
-}
+    }
 
-{
-  "input": 
-  {
-    "filters":{
-      "byPlayers":["203081"]
-    },
-    "searchInput": {
-    	"pagination": {
-        "cursor": "",
-        "direction": "RIGHT",
-        "limit": 20
-      }
-    },
-    "sortBy":"PRICE_USD_ASC"
-    }
-  }
-}
+variables: {"input":{"filters":{"byPlayIDs":[edition.play.id], "bySets": [edition.set.id]},"searchInput":{"pagination":{"cursor":"","direction":"LEFT","limit":0}},"sortBy":"CREATED_AT_ASC"}}
 
 
 

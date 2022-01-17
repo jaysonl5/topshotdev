@@ -14,18 +14,21 @@ const dbUpdateScheduler = async () =>{
        let editionArr = []
        let editions = []
        for(let i = 0; i < sets.length; i++){
-            editions = await queryEditions.queryEditions([sets[0]]);
-            // saveEditions(editions)
+            editions = await queryEditions.queryEditions([sets[i]]);
+            saveEditions(editions)
             editionArr.push(editions.data.searchEditions.searchSummary.data.data)
         }
 
-        for(let i = 0; i < 1; i++){
-            editionArr[0].map(async (edition) => {
-                editionListing = await queryEditionListings.queryEditionListings(edition);    
-                saveEditionListings(editionListing);
+        for(let i = 0; i < editionArr; i++){  
+            editionArr[i].map(async (edition) => {
+                try{                    
+                    editionListing = await queryEditionListings.queryEditionListings(edition);    
+                    saveEditionListings(editionListing);
+                } catch(e){
+                    console.log(e.message)
+                }                
+                
             })
-            
-            // console.log(editionListing)
         }
     // })
 }

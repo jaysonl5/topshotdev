@@ -72,9 +72,31 @@ const momentSchema = mongoose.Schema({
             forSaleByCollectors: Number,
             unavailableForPurchase: Number
 
-        }
-
+        },
+    },
+    pricing: {
+        minPrice: String,
+        maxPrice: String,
+        avgPrice: String,
+        avgNumDays: String,
+        avgNumSales: String,
+        listingCount: Number,
+        uniqueSellerCount: Number,
+    },
+    assets: {
+        videos: [{
+            type: String,
+            url: String,
+            videoLength: Number,
+            __typename: String
+        }],
+        images: [{
+            type: String,
+            url: String,
+            __typename: String
+        }]
     }
+    
     
 },
 { typeKey: '$type'}
