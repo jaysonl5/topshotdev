@@ -22,7 +22,7 @@ const saveSets = (responseData) => {
             });
 
             try{
-                await newSet.update({upsert: true});
+                await newSet.save({upsert: true});
             } catch(e){
                 console.log(e);
             }
