@@ -5,8 +5,8 @@ import './components/MomentsMaster';
 import { React } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MomentsMaster from './components/MomentsMaster';
+
 import Admin from './components/Admin'
-import PromiseTest from './components/PromiseTest';
 
 const MomentDisplay = () => (
 <div>
