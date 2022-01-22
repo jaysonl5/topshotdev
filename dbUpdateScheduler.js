@@ -19,7 +19,7 @@ const dbUpdateScheduler = async () =>{
             editionArr.push(editions.data.searchEditions.searchSummary.data.data)
         }
 
-        for(let i = 0; i < editionArr; i++){  
+        for(let i = 0; i < editionArr.length; i++){  
             editionArr[i].map(async (edition) => {
                 try{                    
                     editionListing = await queryEditionListings.queryEditionListings(edition);    
