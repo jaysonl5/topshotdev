@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const momentSchema = mongoose.Schema({
+const momentListingSchema = mongoose.Schema({
     momentId: {$type: String, index: { unique: true, dropDups: true }},
     playId: String,
     momentUrl: String,
@@ -56,32 +56,10 @@ const momentSchema = mongoose.Schema({
         visible: Boolean
     }],
     setPlay: {
-        ID: String,
-        setId: String,
-        playId: String,
         tags: [{        
             title: String,
-            id: String,
-            level: String
-        }],
-        circulations: {
-            burned: Number,
-            hiddenInPacks: Number,
-            circulationCount: Number,
-            ownedByCollectors: Number,
-            forSaleByCollectors: Number,
-            unavailableForPurchase: Number
-
-        },
-    },
-    pricing: {
-        minPrice: String,
-        maxPrice: String,
-        avgPrice: String,
-        avgNumDays: String,
-        avgNumSales: String,
-        listingCount: Number,
-        uniqueSellerCount: Number,
+            id: String
+        }]
     },
     assets: {
         videos: [{
@@ -95,13 +73,20 @@ const momentSchema = mongoose.Schema({
             url: String,
             __typename: String
         }]
-    }
-    
+    },
+    minPrice: String,
+    maxPrice: String,
+    avgPrice: String,
+    avgNumDays: String,
+    avgNumSales: String,
+    listingCount: Number,
+    uniqueSellerCount: Number,
+        
     
 },
 { typeKey: '$type'}
 );
 
-let Moment = mongoose.model("Moment", momentSchema);
+let MomentListing = mongoose.model("MomentListing", momentListingSchema);
 
-exports.Moment = Moment;
+exports.MomentListing = MomentListing;
