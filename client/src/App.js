@@ -22,7 +22,6 @@ const App = () => (
     <Routes>
       <Route path="/" element={<MomentDisplay />} />
       <Route path="admin" element={<Admin />} />
-      <Route path="PromiseTest" element={<PromiseTest />} />
     </Routes>
   </Router>
 
