@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import axios from 'axios';
 import Pagination from './Pagination/Pagination';
+import MomentBadges from './MomentBadges/MomentBadges'
 
 function formatDate(date){
   var d = new Date(date);
@@ -55,6 +56,7 @@ export default function MomentsMaster(props){
                             <th onClick={() => {handleSort('playType')}}>Play Type</th>
                             <th onClick={() => {handleSort('circulationCount')}}>Circulation Count</th>
                             <th onClick={() => {handleSort('momentDate')}}>Date of Moment</th>
+                            <th>Badges</th>
                             <th className="statCol" onClick={() => {handleSort('stats.points')}}>Pts</th>
                             <th className="statCol" onClick={() => {handleSort('stats.rebounds')}}>Reb</th>
                             <th className="statCol" onClick={() => {handleSort('stats.assists')}}>Ast</th>
@@ -67,6 +69,15 @@ export default function MomentsMaster(props){
 
                         <tbody>
                         {moments.map(moment => {
+                          let tagsArray = []
+                          if(moment.tags && moment.setPlay.tags){
+                            tagsArray = moment.tags.concat(moment.setPlay.tags);
+                          } else if(moment.tags){
+                            tagsArray = moment.tags;
+                          } else if (moment.setPlay.tags){
+                            tagsArray = moment.setPlay.tags 
+                          }
+
                           return(
                             <tr key={moment._id}>
                               <td><img src={moment.momentUrl} width="55px" /></td>
@@ -77,6 +88,7 @@ export default function MomentsMaster(props){
                               <td>{moment.playType}</td>
                               <td>{moment.circulationCount}</td>
                               <td>{formatDate(moment.momentDate)}</td>
+                              <td><MomentBadges tags={tagsArray} /></td>
                               <td className="statCol">{moment.stats.points}</td>
                               <td className="statCol">{moment.stats.rebounds}</td>
                               <td className="statCol">{moment.stats.assists}</td>

@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MomentsMaster from './components/MomentsMaster';
 
 import Admin from './components/Admin'
+import MomentBadges from './components/MomentBadges/MomentBadges';
 
 const MomentDisplay = () => (
 <div>
@@ -21,6 +22,7 @@ const App = () => (
   <Router>
     <Routes>
       <Route path="/" element={<MomentDisplay />} />
+      <Route path="/badges" element={<MomentBadges />} />
       <Route path="admin" element={<Admin />} />
     </Routes>
   </Router>
