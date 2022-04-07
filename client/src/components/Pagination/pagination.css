@@ -16,14 +16,14 @@
       color: #666;
       background-color: rgba(0, 0, 0, 0.098);
       border: none;
-      border-radius: 10px;
-      padding: 5px 10px 5px 10px;
+      border-radius: 5px;
+      padding: 10px 15px 10px 15px;
       outline: none;
   }
 
   .pagination button:hover{
     margin: 2px;
-    background-color: orangered;
+    background-color: #56E39F;
     color:#fff;
     border: none;
     outline: none;
@@ -32,7 +32,7 @@
 
   
   .pagination button:disabled{
-    background-color: lightsalmon;
+    background-color: #FF6F59;
     color: #666;
   }
   

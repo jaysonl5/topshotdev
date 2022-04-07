@@ -50,11 +50,10 @@ export default function MomentsMaster(props){
                           <tr>
                             <th>Moment</th>
                             <th onClick={() => {handleSort('player')}}>Player</th>
-                            <th onClick={() => {handleSort('teamName')}}>Team Name</th>
                             <th onClick={() => {handleSort('set.flowName')}}>Set Name</th>
                             <th onClick={() => {handleSort('set.tier')}}>Tier</th>
-                            <th onClick={() => {handleSort('playType')}}>Play Type</th>
-                            <th onClick={() => {handleSort('circulationCount')}}>Circulation Count</th>
+                            {/* <th onClick={() => {handleSort('playType')}}>Play Type</th> */}
+                            {/* <th onClick={() => {handleSort('circulationCount')}}>Circulation</th> */}
                             <th onClick={() => {handleSort('momentDate')}}>Date of Moment</th>
                             <th>Badges</th>
                             <th className="statCol" onClick={() => {handleSort('stats.points')}}>Pts</th>
@@ -62,13 +61,43 @@ export default function MomentsMaster(props){
                             <th className="statCol" onClick={() => {handleSort('stats.assists')}}>Ast</th>
                             <th className="statCol" onClick={() => {handleSort('stats.steals')}}>Stl</th>
                             <th className="statCol" onClick={() => {handleSort('stats.blocks')}}>Blk</th>
-                            <th className="statCol" onClick={() => {handleSort('stats.statScore')}}>Stat Score</th>
+                            <th className="statCol" onClick={() => {handleSort('stats.statScore')}}>MomeScore</th>
                             <th className="statCol" onClick={() => {handleSort('stats.tripDub')}}>Trip Dub</th>
                           </tr>
                         </thead>
 
                         <tbody>
                         {moments.map(moment => {
+
+
+                          let scoreColor = "white"
+                          if(moment.stats.statScore > 35){
+                            scoreColor = "#56E39F"
+                          } else if (moment.stats.statScore < 35 && moment.stats.statScore > 20) {
+                            scoreColor = "darkorange"
+                          } else {
+                            scoreColor = "#FF6F59"
+                          }
+
+                          let tierColor = "white"
+                          switch (moment.set.tier){
+                            case "Legendary":
+                              tierColor = "HotPink"
+                              break;
+                            case "Common":
+                              tierColor = "white"
+                              break;
+                            case "Rare":
+                              tierColor = "Gold"
+                              break;
+                            case "Fandom":
+                              tierColor = "Aqua"
+                              break;
+                            default:
+                              tierColor = "white"
+                          }
+                            
+
                           let tagsArray = []
                           if(moment.tags && moment.setPlay.tags){
                             tagsArray = moment.tags.concat(moment.setPlay.tags);
@@ -78,23 +107,37 @@ export default function MomentsMaster(props){
                             tagsArray = moment.setPlay.tags 
                           }
 
+
                           return(
-                            <tr key={moment._id}>
-                              <td><img src={moment.momentUrl} width="55px" /></td>
-                              <td>{moment.player}</td>
-                              <td>{moment.teamName}</td>
+                            <tr style={{color: tierColor}} key={moment._id}>
+                              <td><img src={moment.momentUrl} width="65px" /></td>
+                              <td className="playerCol" style={{ display: "block"}}> 
+                                <img className="teamLogo" src={`https://cdn.nba.com/logos/nba/${moment.teamId}/primary/L/logo.svg`} style={{width:"35px"}}/>
+                                &nbsp;
+                                <span className='playerName' style={{fontWeight:"bolder", color: "whitesmoke"}}>{moment.player}</span>
+                                  <br />
+                                  <span className="playType" style={{fontSize: ".8rem"}}>{moment.playType}
+                                  &nbsp; | &nbsp; 
+                                  {moment.circulationCount}</span>
+                              </td>
                               <td>{moment.set.flowName}</td>
                               <td>{moment.set.tier}</td>
-                              <td>{moment.playType}</td>
-                              <td>{moment.circulationCount}</td>
-                              <td>{formatDate(moment.momentDate)}</td>
+
+                              <td style={{fontSize:".9rem"}}>{formatDate(moment.momentDate)}</td>
+
                               <td><MomentBadges tags={tagsArray} /></td>
+
                               <td className="statCol">{moment.stats.points}</td>
                               <td className="statCol">{moment.stats.rebounds}</td>
                               <td className="statCol">{moment.stats.assists}</td>
                               <td className="statCol">{moment.stats.steals}</td>
                               <td className="statCol">{moment.stats.blocks}</td>
-                              <td className="statCol">{moment.stats.statScore}</td>
+                              <td className="statCol" style={{color: scoreColor, fontWeight: 'bolder'}}>
+                                <span style={{backgroundColor: "#5b6c5d7e", padding: '10px', border: '1px dashed #ADF1D2'}}>
+                                  {moment.stats.statScore}
+                                </span>
+                              </td>
+                                
                               <td className="statCol">{moment.stats.tripDub}</td>
                               </tr>
                           )
