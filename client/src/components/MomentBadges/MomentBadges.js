@@ -1,53 +1,90 @@
-import {React, useState, useEffect} from 'react';
+import {React} from 'react';
 
 export default function MomentBadges(props){
 
-    let [badge, setBadge] = useState([])
-    let [count, setCount] = useState(0);
+    let DisplayBadges = (props) =>{
 
-    let tags = [
-        {
-            id: "a75e247a-ecbf-45a6-b1be-58bb07a1b651",
-            title:"Top Shot Debut",
-            visible: true
-        },
-        {
-            id:"0ddb2c58-4385-443b-9c70-239b32cddbd4",
-            title: "Rookie Premiere",
-            visible:true
+        let badgeLinks = []
+
+        let rookieCount = 0;
+        for(let i = 0; i < props.tags.length; i++){
+            if(props.tags[i].title.includes("Rookie")){
+                rookieCount++
+            }
         }
-    ]
 
-    function handleBadges(tags){
+        console.log(rookieCount);
 
-        tags.map((tag) => {
+        if(rookieCount === 3){
+
+            badgeLinks.push("../images/threeStars.gif");
+            props.tags.map((tag) => {
             switch(tag.title) {
                 case "Top Shot Debut":
-                    console.log("TS DEBUT!")
-                    setBadge("../../images/topShotDebut.gif")
+                    badgeLinks.push("../images/topShotDebut.gif")
+                    break;
+                case "Championship Year":
+                    badgeLinks.push("../images/championshipYear.gif")
+                    break;
+                case "Challenge Reward":
+                    badgeLinks.push("../images/challengeReward.svg")
+                    break;
+                }
+            })
+
+        } else {
+
+
+
+        props.tags.map((tag) => {
+            switch(tag.title) {
+                case "Top Shot Debut":
+                    badgeLinks.push("../images/topShotDebut.gif")
+                    break;
                 case "Rookie Premiere":
-                    console.log("ROOKIE")
-                    setBadge("../../images/rookiePremiere.gif")
+                    badgeLinks.push("../images/rookiePremiere.gif")
+                    break;
+                case "Rookie Year":
+                    badgeLinks.push("../images/rookieYear.gif")
+                    break;
+                case "Rookie Mint":
+                    badgeLinks.push("../images/rookieMint.gif")
+                    break;
+                case "Championship Year":
+                    badgeLinks.push("../images/championshipYear.gif")
+                    break;
+                case "Challenge Reward":
+                    badgeLinks.push("../images/challengeReward.svg")
+                    break;
             }
             
         })
+    }
+
+        console.log(badgeLinks)
+
+        if(badgeLinks.length > 0){
+            return(
+                <div>
+                {badgeLinks.map((badge) => (
+                    <img src={`${badge}`} key={badge} />
+                ))}
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                </div>
+            )
+        }
+        
 
     }
 
-    useEffect(() => {
-        handleBadges(tags);     
-    }, [1]);
-
-    
 
     return(
         <div>
-            <h1>Badges!</h1>
-            {badge.length < 1 ? badge.map((badge) => {
-                <div>
-                    <img src={badge} />
-                </div>
-            }) : "Loading..."}
+           <DisplayBadges tags={props.tags}/>
         </div>
     )
 
